@@ -15,6 +15,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    console.log("test", user);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
@@ -25,7 +26,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   return (
     <AuthContext.Provider value={user}>
