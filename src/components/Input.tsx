@@ -11,11 +11,10 @@ export default function Input({
   type,
   isRequired = false,
   placeholder,
-  customClass,
 }) {
   return (
     <div className="my-5">
-      <label htmlFor={labelFor} className="sr-only">
+      <label htmlFor={labelFor} className="text-primary font-sm pb-4 mb-8">
         {labelText}
       </label>
       <input
@@ -25,7 +24,7 @@ export default function Input({
         name={name}
         type={type}
         required={isRequired}
-        className={fixedInputClass + customClass}
+        className={fixedInputClass}
         placeholder={placeholder}
       />
     </div>

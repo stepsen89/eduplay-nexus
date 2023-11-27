@@ -14,12 +14,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return user ? (
     <div className="flex">
       <SideBar />
-      <div className="flex text-white w-full flex-col h-screen px-2 bg-black">{children}</div>
+      <div className="flex text-white w-full flex-col h-screen px-2">{children}</div>
     </div>
   ) : (
-    <div className="mb-10">
-      <h1> I am not a logged in user </h1>
-      {children}
-    </div>
+    <>{children}</>
   );
 }

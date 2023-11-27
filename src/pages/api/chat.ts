@@ -7,10 +7,6 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-// For the sake of simplicity, we'll store the conversation in memory
-// In a production app, you'd want to store this in a database
-let sessionConversations = {};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req);
   if (req.method !== "POST") {
@@ -18,20 +14,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const question = req.body.question;
+    const givenAnswer = req.body.answer;
+    const areas = req.body.areas;
 
     let messages = [
       {
         role: "system",
-        content: "You are a helpful coding assistant, providing solution",
+        content: "You are a helpful coding assistant",
       },
     ];
 
-    const firstConstVariable = "test";
-
     // Please analyse the code and return areas which should be improved: Variables, Functions, Scopes - only mention the area and no explanation. return an array of areas with the name of the area, if none, return empty array
 
-    messages.push({ role: "user", content: question });
+    messages.push({
+      role: "user",
+      content: `${givenAnswer} Please analyse this code and return an array with areas which should be improved of the following areas: ${areas} - only mention the area and no further explanation. if none, return empty array`,
+    });
 
     const gptResponse = await openai.createChatCompletion({
       model: "gpt-4",
