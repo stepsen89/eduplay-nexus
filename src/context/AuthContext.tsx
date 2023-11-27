@@ -6,7 +6,7 @@ import firebase from "firebase/compat/app";
 
 const auth = getAuth(firebase_app);
 
-export const AuthContext = React.createContext<firebase.UserInfo | null>(null);
+export const AuthContext = React.createContext<any | null>(null);
 
 export const useAuthContext = () => React.useContext(AuthContext);
 
@@ -26,10 +26,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={user}>
+    <AuthContext.Provider value={{ user }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );
