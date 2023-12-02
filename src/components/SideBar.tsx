@@ -98,7 +98,8 @@ function SideBar() {
               <div className="flex flex-col justify-center">
                 <h3 className="pb-2 text-lg font-bold text-black ">Congratulations!</h3>
                 <p className="text-sm pb-2">
-                  You've just earned a new award: <strong>{awards[awards.length - 1]}</strong> !
+                  You&apos;ve just earned a new award: <strong>{awards[awards.length - 1]}</strong>{" "}
+                  !
                 </p>
                 <button
                   type="button"
