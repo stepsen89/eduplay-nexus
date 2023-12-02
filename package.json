@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.1",
+    "@heroicons/react": "^2.0.18",
     "@lezer/highlight": "^1.2.0",
+    "@uiw/codemirror-theme-basic": "^4.21.21",
     "@uiw/codemirror-theme-vscode": "^4.21.21",
     "@uiw/codemirror-themes": "^4.21.21",
     "@uiw/react-codemirror": "^4.21.21",

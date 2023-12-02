@@ -1,11 +1,14 @@
 import Layout from "@/components/Layout";
-import { AuthContextProvider, useAuthContext } from "@/context/AuthContext";
+import { AuthContextProvider } from "@/context/AuthContext";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { useEffect } from "react";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
+import { UserDataContextProvider } from "@/context/UserDataContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat_font = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,10 +18,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={montserrat_font.className}>
         <AuthContextProvider>
-          <Layout> {children} </Layout>
+          <UserDataContextProvider>
+            <Layout> {children} </Layout>
+          </UserDataContextProvider>
         </AuthContextProvider>
+        <span className="absolute right-9 bottom-5">
+          (c) Stephanie Senoner, MSc Computing & Tech
+        </span>
       </body>
     </html>
   );

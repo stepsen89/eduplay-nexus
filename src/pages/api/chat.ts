@@ -8,42 +8,40 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req);
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed, please use POST" });
   }
 
   try {
     const givenAnswer = req.body.answer;
+    const question = req.body.question;
     const areas = req.body.areas;
 
-    let messages = [
+    const gptResponse = await openai.createChatCompletion(
       {
-        role: "system",
-        content: "You are a helpful coding assistant",
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful assistant to learn coding. You give back JSON containing an array of areas named areasToImprove and one string of explanation named explanation in plain english, without code and short, additional calculate points from 0 to 100 for the given answer and give back points too. If everything is okay give back an empty array and no explanation.",
+          },
+          {
+            role: "user",
+            content: `${question} - Given answer: ${givenAnswer} Please analyse and return an array with areas which should be improved of the following areas: ${areas}`,
+          },
+        ],
       },
-    ];
-
-    // Please analyse the code and return areas which should be improved: Variables, Functions, Scopes - only mention the area and no explanation. return an array of areas with the name of the area, if none, return empty array
-
-    messages.push({
-      role: "user",
-      content: `${givenAnswer} Please analyse this code and return an array with areas which should be improved of the following areas: ${areas} - only mention the area and no further explanation. if none, return empty array`,
-    });
-
-    const gptResponse = await openai.createChatCompletion({
-      model: "gpt-4",
-      messages: messages,
-    });
+      { responseType: "json" }
+    );
 
     const botMessage = gptResponse.data.choices[0].message?.content;
-    console.log(botMessage);
+
     return res.status(200).json({
       message: "Success",
-      response: botMessage,
+      response: JSON.parse(botMessage),
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 }

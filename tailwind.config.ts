@@ -12,12 +12,21 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      spacing: {
+        "564": "564px",
+      },
     },
-    colors: {
-      primary: "#242145",
-      white: "#fff",
-    },
+    // colors: {
+    //   primary: "#242145",
+    //   white: "#fff",
+    // },
   },
   plugins: [],
+  variants: {
+    extend: {
+      animation: ["animate-spin"],
+    },
+  },
+  safelist: ["animation-spin"],
 };
 export default config;

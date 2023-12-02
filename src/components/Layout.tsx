@@ -4,18 +4,44 @@ import { useAuthContext } from "@/context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "./SideBar";
+import NavProgressBar from "./NavProgressBar";
+import { useUserContext } from "@/context/UserDataContext";
+import { getUserProgressInformation } from "@/firebase/getData";
+import router from "next/router";
+import LoadingScreen from "./LoadingScreen";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { user } = useAuthContext();
-  console.log("user should be here", user);
+  const { user, loading } = useAuthContext();
+  const router = useRouter();
+  const { points, setInitialUserInformation } = useUserContext();
+
+  useEffect(() => {
+    if (user == null && !loading) router.push("/");
+    else if (user) {
+      getUserProgressInformation(user.uid).then((result) => {
+        setInitialUserInformation(result.result);
+      });
+    }
+  }, [loading, user]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col w-full h-screen">
+        <LoadingScreen />
+      </div>
+    );
+  }
 
   return user ? (
-    <div className="flex">
+    <main className="h-screen flex">
       <SideBar />
-      <div className="flex text-white w-full flex-col h-screen px-2">{children}</div>
-    </div>
+      <div className="w-full overflow-auto">
+        <NavProgressBar points={points} />
+        {children}
+      </div>
+    </main>
   ) : (
     <>{children}</>
   );
