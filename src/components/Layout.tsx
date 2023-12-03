@@ -14,19 +14,23 @@ import LoadingScreen from "./LoadingScreen";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuthContext();
+  const [loadingInitialUserInformation, setLoadingInitialUserInformation] =
+    React.useState<boolean>(true);
   const router = useRouter();
   const { points, setInitialUserInformation } = useUserContext();
 
   useEffect(() => {
     if (user == null && !loading) router.push("/");
     else if (user) {
+      setLoadingInitialUserInformation(true);
       getUserProgressInformation(user.uid).then((result) => {
         setInitialUserInformation(result.result);
+        setLoadingInitialUserInformation(false);
       });
     }
   }, [loading, user]);
 
-  if (loading) {
+  if (loading || loadingInitialUserInformation) {
     return (
       <div className="flex flex-col w-full h-screen">
         <LoadingScreen />

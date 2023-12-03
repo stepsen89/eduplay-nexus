@@ -26,8 +26,6 @@ export default function Home() {
     }
   }, [user]);
 
-  console.log(overallProgress);
-
   if (loading) return <LoadingScreen />;
 
   return (
@@ -53,7 +51,7 @@ export default function Home() {
           <Awards awards={awards} />
         </div>
       ) : (
-        <p> No user </p>
+        <LoadingScreen />
       )}
     </div>
   );

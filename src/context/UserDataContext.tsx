@@ -22,10 +22,7 @@ const calculateProgress = (progress: Progress) => {
       }
     }
 
-    console.log(progress);
     let overallProgress = (completedEntries / totalEntries) * 100;
-
-    console.log(overallProgress);
 
     return overallProgress;
   } else {
