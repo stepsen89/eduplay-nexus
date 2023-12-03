@@ -7,17 +7,28 @@ import { useUserContext } from "@/context/UserDataContext";
 import Image from "next/image";
 import { awardsMapping } from "@/utils/iconMapping";
 import Link from "next/link";
+import LoadingScreen from "./LoadingScreen";
+import { useState } from "react";
 
 function SideBar() {
   const router = useRouter();
   const { awards, showNewAward, updateNewAwardSwal, resetUserContext } = useUserContext();
-
+  const [signingOut, setSigningOut] = useState<boolean>(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signOutUser();
     resetUserContext();
+    setSigningOut(true);
     router.push("/");
+    setSigningOut(false);
   };
+
+  if (signingOut)
+    return (
+      <div className="flex flex-col w-full h-screen">
+        <LoadingScreen />
+      </div>
+    );
 
   const handleSetNoShowNewAward = () => {
     updateNewAwardSwal(false);

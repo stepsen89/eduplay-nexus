@@ -57,7 +57,11 @@ export default function Home() {
   };
 
   if (loading) {
-    return <LoadingScreen />;
+    return (
+      <div className="flex flex-col w-full h-screen">
+        <LoadingScreen />
+      </div>
+    );
   }
 
   return (

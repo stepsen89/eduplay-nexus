@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Layout> {children} </Layout>
           </UserDataContextProvider>
         </AuthContextProvider>
-        <span className="absolute right-9 bottom-5">
+        <span className="absolute right-9 text-xs bottom-5 invisible md:visible">
           (c) Stephanie Senoner, MSc Computing & Tech
         </span>
       </body>

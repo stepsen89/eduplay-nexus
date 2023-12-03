@@ -17,14 +17,12 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (user == null) {
-      router.push("/");
-    } else if (user) {
+    if (user) {
       getUserProgressInformation(user.uid).then((result) => {
         setInitialUserInformation(result.result);
       });
     }
-  }, [user]);
+  }, [user, loading]);
 
   if (loading) return <LoadingScreen />;
 
