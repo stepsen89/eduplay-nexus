@@ -1,4 +1,5 @@
-import { useUserContext } from "@/context/UserDataContext";
+"use client";
+
 import Image from "next/image";
 
 export default function NavProgressBar({ points = 786 }: { points: number }) {

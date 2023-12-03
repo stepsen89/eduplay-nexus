@@ -1,3 +1,5 @@
+"use client";
+
 export default function FormAction({ handleSubmit, type = "Button", text }) {
   return (
     <>

@@ -1,3 +1,5 @@
+"use client";
+
 function LoadingScreen() {
   return (
     <div className="flex flex-col p-12 h-5/6 ">

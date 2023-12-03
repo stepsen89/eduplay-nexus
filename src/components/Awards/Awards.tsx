@@ -1,3 +1,5 @@
+"use client";
+
 import { awardsMapping } from "@/utils/iconMapping";
 import { Award } from "@/utils/types";
 import Image from "next/image";

@@ -19,6 +19,11 @@ const styles = {
   },
 };
 
+type LearningContent = {
+  question: string;
+  labels: string[];
+};
+
 export default function LearningPage() {
   const { user, loading } = useAuthContext();
   const {
@@ -38,8 +43,8 @@ export default function LearningPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [loadedUserContent, setLoadedUserContent] = useState(false);
-  const [learningContent, setLearningContent] = useState({});
-  const [currentQuestion, setCurrentQuestion] = useState<number>();
+  const [learningContent, setLearningContent] = useState<LearningContent[]>([]);
+  const [currentQuestion, setCurrentQuestion] = useState<number>(1);
   const [explanation, setExplanation] = useState<string>();
 
   useEffect(() => {
@@ -64,7 +69,7 @@ export default function LearningPage() {
     const { data } = await axios.post("/api/chat", {
       answer: answer,
       areas: currentTopic,
-      question: learningContent[currentQuestion as keyof typeof learningContent]?.question,
+      question: learningContent[currentQuestion]?.question,
     });
 
     updatePoints(data.response.points);
@@ -100,7 +105,7 @@ export default function LearningPage() {
   if (!learningContent || !loadedUserContent || loading) {
     return (
       <div className="flex flex-col p-12 h-5/6">
-        <div className="flex items-center justify-center w-full  rounded-lg    h-5/6">
+        <div className="flex items-center justify-center w-full  rounded-lg h-5/6">
           <div role="status" className="flex flex-col content-center items-center justify-center">
             <svg
               aria-hidden="true"
@@ -126,7 +131,7 @@ export default function LearningPage() {
   }
 
   return (
-    <div className="flex flex-col pl-12 h-5/6 ">
+    <div className="flex flex-col pl-12 pr-12 h-5/6">
       {loadedUserContent && learningContent && learningContent[currentQuestion] ? (
         <>
           <div className="w-72 rounded-full h-1 dark:bg-gray-700 bg-slate-500">
@@ -140,7 +145,7 @@ export default function LearningPage() {
             JavaScript Course v1
           </h1>
           <LearningView
-            currentLearning={learningContent[currentQuestion as keyof typeof learningContent]}
+            currentLearning={learningContent[currentQuestion]}
             handleSubmitCall={submitAnswer}
             submitting={submitting}
             handleNext={handleNext}

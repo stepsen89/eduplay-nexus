@@ -1,3 +1,5 @@
+"use client";
+
 import { javascript } from "@codemirror/lang-javascript";
 import { basicDark } from "@uiw/codemirror-theme-basic";
 import createTheme from "@uiw/codemirror-themes";
@@ -11,14 +13,9 @@ import { useUserContext } from "@/context/UserDataContext";
 
 const styles = {
   Card: {
-    // top: "165px",
-    // left: "128px",
-    // width: "auto",
-    height: "555px",
     backgroundColor: "#ECEFF4",
     borderRadius: "12px 0 0 12px",
-    // border: "1px solid #9012ea",
-    // boxSizing: "border-box",
+
     padding: "16px",
     fontColor: "black",
   },
@@ -32,20 +29,6 @@ const styles = {
     borderRadius: "12px",
     backgroundColor: "#ffffff",
     color: "#3f3f47",
-    fontSize: "14px",
-    lineHeight: "18px",
-    outline: "none",
-  },
-  InputTwo: {
-    top: "117px",
-    left: "745px",
-    width: "150px",
-    height: "40px",
-    padding: "0px 8px",
-    border: "1px solid #9012ea",
-    borderRadius: "12px",
-    backgroundColor: "#9013E9",
-    // color: "#3f3f47",
     fontSize: "14px",
     lineHeight: "18px",
     outline: "none",
@@ -66,6 +49,11 @@ const styles = {
   },
 };
 
+type LearningContent = {
+  question: string;
+  labels: string[];
+};
+
 function LearningView({
   currentLearning,
   submitting,
@@ -73,10 +61,7 @@ function LearningView({
   handleNext,
   explanation,
 }: {
-  currentLearning: {
-    question: string;
-    labels: string[];
-  };
+  currentLearning: LearningContent;
   submitting: boolean;
   handleSubmitCall: (value: string) => void;
   handleNext: () => void;
@@ -96,24 +81,24 @@ function LearningView({
   }, [currentLearning.question]);
 
   return (
-    <div className="h-full flex w-full">
-      <div className="w-1/2 h-5/6">
+    <div className="h-full flex w-full flex-col md:flex-row pb-8">
+      <div className="md:w-1/2 w-full h-2/6 md:h-5/6">
         <div className="h-1/8">
           <button style={styles.Input} className="mb-4">
             Instructions
           </button>
         </div>
-        <div style={styles.Card} className="text-black bg-green-500">
+        <div style={styles.Card} className="md:h-555 text-black bg-green-500">
           <h2> {currentLearning.question}</h2>
         </div>
       </div>
-      <div className="w-1/2 h-5/6">
+      <div className="md:w-1/2 w-full h-2/6 md:h-5/6">
         <div className="h-1/8">
           <button style={styles.Input} className="mb-4">
             Your solution
           </button>
         </div>
-        <div className=" flex flex-col justify-between " style={{ height: "555px" }}>
+        <div className="flex flex-col justify-between md:h-555 h-2/6">
           <div>
             <CodeMirror
               value={value}
@@ -127,28 +112,29 @@ function LearningView({
           <div className="h-24 p-2 scroll-m-2 overflow-auto scr">
             <p>{explanation}</p>
           </div>
-          <div className="flex flex-row justify-center  w-full contend-center">
-            <button
-              type="button"
-              className={`text-white  ${
-                submitting || value === "// Type your code here" ? "opacity-50" : ""
-              } rounded-lg px-4 py-2}`}
-              style={styles.InputTwo}
-              onClick={handleSubmit}
-              disabled={value === "// Type your code here"}
-            >
-              {submitting ? "Processing ... " : "Submit"}
-            </button>
+          <div className="flex flex-row justify-end  w-full contend-center md:pb-0 pb-12">
             {explanation && (
               <button
                 type="button"
-                className={`text-white bg-slate-400 rounded-lg px-4 py-2}`}
-                style={styles.InputTwo}
+                className={`text-white bg-purple-500 rounded-lg px-8 py-2 mr-2`}
                 onClick={handleNext}
               >
-                Skip
+                Okay, got it! Next
               </button>
             )}
+            <button
+              type="button"
+              className={`text-white py-2 px-8 border rounded-full   ${
+                submitting || value === "// Type your code here" || !!explanation
+                  ? "opacity-50 bg-slate-200 "
+                  : "bg-purple-500"
+              } rounded-lg px-4 py-2}`}
+              // style={styles.InputTwo}
+              onClick={handleSubmit}
+              disabled={value === "// Type your code here" || !!explanation}
+            >
+              {submitting ? "Thinking ... " : "Submit"}
+            </button>
           </div>
         </div>
       </div>
