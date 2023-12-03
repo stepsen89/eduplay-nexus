@@ -34,7 +34,7 @@ export default function Home() {
   const { user, loading } = useAuthContext();
   const router = useRouter();
   useEffect(() => {
-    if (user != null) router.push("/dashboard");
+    if (user !== null && !loading) router.push("/dashboard");
   }, [user]);
 
   const handleChange = (e: { target: { id: any; value: any } }) =>
