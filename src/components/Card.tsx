@@ -26,7 +26,7 @@ interface CourseCardProps {
   overallProgress: number;
 }
 
-const CourseCard = ({ title, description, overallProgress }: CourseCardProps) => {
+const CourseCard = ({ title, description, overallProgress = 0 }: CourseCardProps) => {
   return (
     <Link
       style={styles.Card}

@@ -19,7 +19,8 @@ export type ProgressType = {
 export type Progress = {
   variables: ProgressType;
   functions: ProgressType;
-  scopes: ProgressType;
+  objects: ProgressType;
+  arrays: ProgressType;
 };
 
 export type UserDataContextType = {
@@ -28,12 +29,15 @@ export type UserDataContextType = {
   currentTopic: Topic;
   awards: Award[];
   showNewAward: boolean;
+  totalChallenges: number;
+  overallProgress: number;
   updateProgress: (field: string, value: string) => void;
   updateCurrentTopic: (currentTopic: string) => void;
   updatePoints: (pointsToAdd: number) => void;
   updateAward: (award: Award) => void;
   setInitialUserInformation: (userInfo: any) => void;
   updateNewAwardSwal: (state: boolean) => void;
+  resetUserContext: () => void;
 };
 
 export type UserData = {

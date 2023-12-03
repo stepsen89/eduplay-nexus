@@ -26,6 +26,7 @@ export default function LearningPage() {
     progress,
     points,
     awards,
+    overallProgress,
     updateProgress,
     updatePoints,
     updateNewAwardSwal,
@@ -125,11 +126,18 @@ export default function LearningPage() {
   }
 
   return (
-    <div className="flex flex-col p-12 h-5/6 ">
+    <div className="flex flex-col pl-12 h-5/6 ">
       {loadedUserContent && learningContent && learningContent[currentQuestion] ? (
         <>
-          <h1 style={styles.Text} className="pb-6">
-            JavaScript Course v1 {currentTopic}
+          <div className="w-72 rounded-full h-1 dark:bg-gray-700 bg-slate-500">
+            <div
+              className={`bg-blue-500 h-1 rounded-full`}
+              style={{ width: `${overallProgress}%` }}
+            ></div>
+          </div>
+          <p className="pt-2 text-xs"> {overallProgress}% of this course completed</p>
+          <h1 style={styles.Text} className="pb-6 pt-4">
+            JavaScript Course v1
           </h1>
           <LearningView
             currentLearning={learningContent[currentQuestion as keyof typeof learningContent]}

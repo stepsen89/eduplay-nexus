@@ -2,6 +2,7 @@
 
 import Awards from "@/components/Awards/Awards";
 import CourseCard from "@/components/Card";
+import CompetitionCard from "@/components/Competition";
 import LoadingScreen from "@/components/LoadingScreen";
 import Topics from "@/components/Topics/Topics";
 import { useAuthContext } from "@/context/AuthContext";
@@ -12,7 +13,7 @@ import { useEffect } from "react";
 
 export default function Home() {
   const { user, loading } = useAuthContext();
-  const { setInitialUserInformation, awards, progress } = useUserContext();
+  const { setInitialUserInformation, awards, progress, overallProgress, points } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,27 +24,9 @@ export default function Home() {
         setInitialUserInformation(result.result);
       });
     }
-  }, [user, router]);
+  }, [user]);
 
-  const calculateProgress = () => {
-    if (progress) {
-      let totalEntries = 0;
-      let completedEntries = 0;
-
-      for (let key in progress) {
-        totalEntries++;
-        if (progress[key].completed) {
-          completedEntries++;
-        }
-      }
-
-      let overallProgress = (completedEntries / totalEntries) * 100;
-
-      return overallProgress;
-    } else {
-      return 0;
-    }
-  };
+  console.log(overallProgress);
 
   if (loading) return <LoadingScreen />;
 
@@ -51,13 +34,22 @@ export default function Home() {
     <div>
       {user ? (
         <div className="w-full pt-6 px-12">
-          <h2 className="text-xl font-bold"> Current Course: </h2>
-          <CourseCard
-            title="JavaScript"
-            description="Master JavaScript - from beginner to advanced."
-            overallProgress={calculateProgress()}
-          ></CourseCard>
-          <Topics progress={progress} userId={user.uid} />
+          <div className="flex justify-between pr-12">
+            <div>
+              <h2 className="text-xl font-bold"> Current Course: </h2>
+              <CourseCard
+                title="JavaScript"
+                description="Master JavaScript - from beginner to advanced."
+                overallProgress={overallProgress}
+              ></CourseCard>
+            </div>
+            <div>
+              <h2 className="text-lg font-bold"> Leaderboard: </h2>
+
+              <CompetitionCard points={points} />
+            </div>
+          </div>
+          {progress && <Topics progress={progress} userId={user.uid} />}
           <Awards awards={awards} />
         </div>
       ) : (

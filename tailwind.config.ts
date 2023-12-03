@@ -14,6 +14,7 @@ const config: Config = {
       },
       spacing: {
         "564": "564px",
+        "500": "500px",
       },
     },
     // colors: {

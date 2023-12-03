@@ -7,15 +7,15 @@ import { useUserContext } from "@/context/UserDataContext";
 import Image from "next/image";
 import { awardsMapping } from "@/utils/iconMapping";
 import Link from "next/link";
-import { useEffect } from "react";
 
 function SideBar() {
   const router = useRouter();
-  const { awards, showNewAward, updateNewAwardSwal } = useUserContext();
+  const { awards, showNewAward, updateNewAwardSwal, resetUserContext } = useUserContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signOutUser();
+    resetUserContext();
     router.push("/");
   };
 
@@ -26,7 +26,10 @@ function SideBar() {
   return (
     <div className="p-2 flex flex-col align-center justify-between h-screen w-24 shadow-[0_2px_10px_rgba(3,3,3,0.1)] bg-slate-200">
       <div>
-        <div className="flex flex-col justify-center align-center pt-36">
+        <div className="flex justify-center pt-6">
+          <Image src={"/cat-silhouette.svg"} alt={"Cat Silhouette"} width={50} height={50} />
+        </div>
+        <div className="flex flex-col justify-center align-center pt-24">
           <Link
             href="/dashboard"
             className="flex flex-col flex-wrap justify-center content-center "
@@ -35,23 +38,25 @@ function SideBar() {
             <span> Home </span>
           </Link>
         </div>
-        <div className="flex flex-col justify-center align-center pt-12">
-          <div className="flex flex-col flex-wrap justify-center content-center ">
-            <span> Awards: </span>
-          </div>
-          {awards && (
-            <div className="flex flex-col justify-center items-center pt-4">
-              {awards?.map((award, index) => (
-                <div key={index}>
-                  <Image
-                    src={awardsMapping[award].src}
-                    alt={awardsMapping[award].alt}
-                    width={50}
-                    height={50}
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="flex flex-col justify-center align-center pt-24">
+          {awards && awards.length > 0 && (
+            <>
+              <div className="flex flex-col flex-wrap justify-center content-center ">
+                <span> Awards: </span>
+              </div>
+              <div className="flex flex-col justify-center items-center pt-4">
+                {awards?.map((award, index) => (
+                  <div key={index}>
+                    <Image
+                      src={awardsMapping[award].src}
+                      alt={awardsMapping[award].alt}
+                      width={50}
+                      height={50}
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>
