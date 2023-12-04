@@ -1,7 +1,9 @@
 "use client";
 
 import { updateSingleFieldForUser } from "@/firebase/updateFields";
+import { capitalizeFirstLetter } from "@/utils/helpers";
 import { Progress, Topic } from "@/utils/types";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -32,11 +34,11 @@ const Topics = ({ progress, userId }: { progress: Progress; userId: string }) =>
         {Object.keys(progress).map((key) => (
           <button
             onClick={(e) => handleTopicChoice(e, key)}
-            disabled={progress[key as Topic].completed}
+            disabled={progress[key as keyof Progress].completed}
             key={key}
             className={
-              progress[key as Topic].completed
-                ? "w-96 h-24 shadow-[0px_2px_10px_rgba(3,3,3,0.1)] flex items-center mt-4 mr-4 border rounded-3xl opacity-50 bg-slate-200"
+              progress[key as keyof Progress].completed
+                ? "w-96 h-24 shadow-[0px_2px_10px_rgba(3,3,3,0.1)] flex items-center mt-4 mr-4 border rounded-3xl bg-slate-200"
                 : "w-96 h-24 shadow-[0px_2px_10px_rgba(3,3,3,0.1)] flex items-center mt-4 mr-4 border rounded-3xl"
             }
           >
@@ -49,17 +51,28 @@ const Topics = ({ progress, userId }: { progress: Progress; userId: string }) =>
                 className="rounded-xl self-center"
               />
             </div>
+            {progress[key as keyof Progress].completed && (
+              <div className="relative">
+                <div>
+                  <CheckCircleIcon
+                    className="absolute left-64 bottom-4 text-green-700 z-20"
+                    height={30}
+                    width={23}
+                  />
+                </div>
+              </div>
+            )}
             <div className="flex flex-col items-start my-4 ml-4  w-full h-auto  ">
-              <h3 className="font-bold">{key.toUpperCase()}</h3>
+              <h3 className="font-bold">{capitalizeFirstLetter(key)}</h3>
               <p className="font-extralight text-xs text-left pb-1">
                 {topicDescription[key as Topic]}
               </p>
-              {progress[key as Topic].completed ? (
+              {progress[key as keyof Progress].completed ? (
                 <p> Completed!</p>
-              ) : progress[key as Topic].awarded > 0 ? (
-                <p> {progress[key as Topic].awarded} completed!</p>
+              ) : progress[key as keyof Progress].awarded > 0 ? (
+                <p> {progress[key as keyof Progress].awarded} completed!</p>
               ) : (
-                <p> Nothing completed yet!</p>
+                <p> Get started</p>
               )}
             </div>
           </button>

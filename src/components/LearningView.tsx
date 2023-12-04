@@ -60,12 +60,14 @@ function LearningView({
   handleSubmitCall,
   handleNext,
   explanation,
+  questionNumber,
 }: {
   currentLearning: LearningContent;
   submitting: boolean;
   handleSubmitCall: (value: string) => void;
   handleNext: () => void;
   explanation?: string;
+  questionNumber: number;
 }) {
   const [value, setValue] = React.useState("// Type your code here");
   const onChange = React.useCallback((val: string) => {
@@ -81,7 +83,7 @@ function LearningView({
   }, [currentLearning.question]);
 
   return (
-    <div className="h-full flex w-full flex-col md:flex-row pb-8">
+    <div className="h-full flex w-full xl:w-10/12 flex-col md:flex-row pb-8">
       <div className="md:w-1/2 w-full h-2/6 md:h-5/6">
         <div className="h-1/8">
           <button style={styles.Input} className="mb-4">
@@ -89,7 +91,8 @@ function LearningView({
           </button>
         </div>
         <div style={styles.Card} className="md:h-555 text-black bg-green-500">
-          <h2> {currentLearning.question}</h2>
+          <h2 className="font-bold pb-2"> Question {questionNumber}:</h2>
+          <h3>{currentLearning.question}</h3>
         </div>
       </div>
       <div className="md:w-1/2 w-full h-2/6 md:h-5/6">
@@ -125,15 +128,27 @@ function LearningView({
             <button
               type="button"
               className={`text-white py-2 px-8 border rounded-full   ${
-                submitting || value === "// Type your code here" || !!explanation
-                  ? "opacity-50 bg-slate-200 "
+                value === "// Type your code here" || !!explanation
+                  ? "opacity-50 bg-slate-400 "
                   : "bg-purple-500"
               } rounded-lg px-4 py-2}`}
               // style={styles.InputTwo}
               onClick={handleSubmit}
               disabled={value === "// Type your code here" || !!explanation}
             >
-              {submitting ? "Thinking ... " : "Submit"}
+              {submitting ? (
+                <div className="col-3 flex justify-between content-center items-center w-32">
+                  <span> Thinking </span>
+
+                  <div className="snippet" data-title="dot-pulse">
+                    <div className="stage">
+                      <div className="dot-pulse">Thinking </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </div>

@@ -8,7 +8,7 @@ import React from "react";
 const Awards = ({ awards }: { awards: Award[] }) => {
   return (
     <div className="flex flex-col mt-12">
-      <h2 className="text-lg font-bold"> Your achievements: </h2>
+      <h2 className="text-lg font-bold"> Your awards: </h2>
       {awards.length > 0 ? (
         <div className="flex flex-wrap mt-4">
           {awards.map((award: Award, index) => (

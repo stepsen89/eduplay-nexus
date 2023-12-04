@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <div>
       {user ? (
-        <div className="w-full pt-6 px-12">
+        <div className="w-full px-12 pt-2">
           <div className="flex justify-between pr-12">
             <div>
               <h2 className="text-xl font-bold"> Current Course: </h2>
@@ -38,11 +38,6 @@ export default function Home() {
                 description="Master JavaScript - from beginner to advanced."
                 overallProgress={overallProgress}
               ></CourseCard>
-            </div>
-            <div>
-              <h2 className="text-lg font-bold"> Leaderboard: </h2>
-
-              <CompetitionCard points={points} />
             </div>
           </div>
           {progress && <Topics progress={progress} userId={user.uid} />}

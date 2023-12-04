@@ -44,9 +44,16 @@ export type UserData = {
   progress: {
     variables: ProgressType;
     functions: ProgressType;
-    scopes: ProgressType;
+    objects: ProgressType;
+    arrays: ProgressType;
   };
+  totalChallenges: number;
   points: number;
   currentTopic: Topic;
   awards: string[] | null;
+};
+
+export type Question = {
+  question: string;
+  labels: string[];
 };

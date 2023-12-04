@@ -32,10 +32,10 @@ const CourseCard = ({ title, description, overallProgress = 0 }: CourseCardProps
   return (
     <Link
       style={styles.Card}
-      className="w-564 h-40 shadow-[0px_2px_10px_rgba(3,3,3,0.1)] flex text-black mt-6"
+      className="w-564 xl:w-800  h-40 shadow-[0px_2px_10px_rgba(3,3,3,0.1)] flex text-black mt-6"
       href="/learning"
     >
-      <div className="w-4/12 h-4/5 bg-primary my-4 ml-4 rounded-xl">
+      <div className="w-4/12 h-4/5   my-4 ml-4 rounded-xl">
         <Image
           alt="Photo by Gabriel Heinzer on Unsplash"
           className="h-full w-full rounded-lg"

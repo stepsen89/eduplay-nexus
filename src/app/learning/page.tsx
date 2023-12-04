@@ -9,6 +9,7 @@ import { useUserContext } from "@/context/UserDataContext";
 import axios from "axios";
 import { updateSingleFieldForUser } from "@/firebase/updateFields";
 import { Award } from "@/utils/types";
+import { capitalizeFirstLetter } from "@/utils/helpers";
 
 const styles = {
   Text: {
@@ -134,18 +135,12 @@ export default function LearningPage() {
     <div className="flex flex-col pl-12 pr-12 h-5/6">
       {loadedUserContent && learningContent && learningContent[currentQuestion] ? (
         <>
-          <div className="w-72 rounded-full h-1 dark:bg-gray-700 bg-slate-500">
-            <div
-              className={`bg-blue-500 h-1 rounded-full`}
-              style={{ width: `${overallProgress}%` }}
-            ></div>
-          </div>
-          <p className="pt-2 text-xs"> {overallProgress}% of this course completed</p>
           <h1 style={styles.Text} className="pb-6 pt-4">
-            JavaScript Course v1
+            Course: JavaScript - {capitalizeFirstLetter(currentTopic)}
           </h1>
           <LearningView
             currentLearning={learningContent[currentQuestion]}
+            questionNumber={currentQuestion}
             handleSubmitCall={submitAnswer}
             submitting={submitting}
             handleNext={handleNext}

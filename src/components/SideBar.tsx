@@ -9,10 +9,14 @@ import { awardsMapping } from "@/utils/iconMapping";
 import Link from "next/link";
 import LoadingScreen from "./LoadingScreen";
 import { useState } from "react";
+import { useAuthContext } from "@/context/AuthContext";
+import CompetitionCard from "./Competition";
+import { capitalizeFirstLetter } from "@/utils/helpers";
 
 function SideBar() {
   const router = useRouter();
-  const { awards, showNewAward, updateNewAwardSwal, resetUserContext } = useUserContext();
+  const { awards, showNewAward, points, updateNewAwardSwal, resetUserContext } = useUserContext();
+  const { user } = useAuthContext();
   const [signingOut, setSigningOut] = useState<boolean>(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,13 +38,17 @@ function SideBar() {
     updateNewAwardSwal(false);
   };
 
+  const getUserName = (email: string) => {
+    return email.slice(0, email.indexOf("@"));
+  };
+
   return (
-    <div className="p-2 flex flex-col align-center justify-between h-screen w-24 shadow-[0_2px_10px_rgba(3,3,3,0.1)] bg-slate-200">
+    <div className="p-2 flex flex-col align-center h-screen w-300 shadow-[0_2px_10px_rgba(3,3,3,0.1)] bg-slate-200">
       <div>
-        <div className="flex justify-center pt-6">
+        {/* <div className="flex justify-center pt-6">
           <Image src={"/cat-silhouette.svg"} alt={"Cat Silhouette"} width={50} height={50} />
-        </div>
-        <div className="flex flex-col justify-center align-center pt-24">
+        </div> */}
+        <div className="flex flex-col justify-center align-center pt-16">
           <Link
             href="/dashboard"
             className="flex flex-col flex-wrap justify-center content-center "
@@ -49,34 +57,51 @@ function SideBar() {
             <span> Home </span>
           </Link>
         </div>
-        <div className="flex flex-col justify-center align-center pt-24">
-          {awards && awards.length > 0 && (
+        {/* <p className="pr-6 font-bold"> {points} </p> */}
+        <div className="flex flex-col items-center pt-8 ">
+          <Image src="/undraw_pic_profile.svg" alt="Profile Picture" height={70} width={70} />
+          <span className="pt-2 text-sm"> {getUserName(user.email)} </span>
+        </div>
+        {awards && awards.length > 0 ? (
+          <div className="flex flex-col justify-center align-center pt-12 h-48">
             <>
-              <div className="flex flex-col flex-wrap justify-center content-center ">
-                <span> Awards: </span>
+              <div className="flex justify-center">
+                <span className="font-bold"> Awards: </span>
               </div>
-              <div className="flex flex-col justify-center items-center pt-4">
+              <div className="flex flex-wrap pt-4 h-auto px-4 w-auto  ml-1">
                 {awards?.map((award, index) => (
                   <div key={index}>
                     <Image
                       src={awardsMapping[award].src}
                       alt={awardsMapping[award].alt}
-                      width={50}
-                      height={50}
+                      className="m-1"
+                      width={40}
+                      height={40}
                     />
                   </div>
                 ))}
               </div>
             </>
-          )}
+          </div>
+        ) : (
+          <div className=" h-48"></div>
+        )}
+        <div className="flex justify-center pt-12 flex-col items-center">
+          <h4 className=""> Points </h4>
+          <p className="text-3xl font-bold"> {points}</p>
         </div>
+        <h2 className=" text-center pt-6"> Leaderboard: </h2>
+
+        <CompetitionCard />
       </div>
-      <button onClick={handleSubmit} className="">
-        <ArrowLeftOnRectangleIcon className="h-6 w-12" />
-      </button>
+      <div className="flex justify-center pt-3">
+        <button onClick={handleSubmit} className="">
+          <ArrowLeftOnRectangleIcon className="h-8 w-12" />
+        </button>
+      </div>
       {showNewAward && awards && (
-        <div className="absolute w-max-content h-8 bottom-36 ">
-          <div className=" bg-slate-200 rounded-lg shadow h-36 ">
+        <div className="absolute w-500 h-8 bottom-36 left-6 ">
+          <div className=" bg-slate-300 rounded-lg shadow drop-shadow-2xl h-36 ">
             <button
               type="button"
               className="absolute top-3 end-2.5 text-gray-800 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -111,15 +136,18 @@ function SideBar() {
                   />
                 </div>
               </div>
-              <div className="flex flex-col justify-center">
-                <h3 className="pb-2 text-lg font-bold text-black ">Congratulations!</h3>
-                <p className="text-sm pb-2">
-                  You&apos;ve just earned a new award: <strong>{awards[awards.length - 1]}</strong>{" "}
+              <div className="flex flex-col justify-center pl-2 w-4/5">
+                <h3 className="pb-2 text-xl font-bold text-black ">Congratulations</h3>
+                <p className="text-md pb-2">
+                  You&apos;ve earned a new award:{" "}
+                  <strong className="text-lg">
+                    {capitalizeFirstLetter(awards[awards.length - 1])}
+                  </strong>{" "}
                   !
                 </p>
                 <button
                   type="button"
-                  className="text-white w-24 self-end bg-purple-600 focus:ring-4  rounded-lg text-sm  items-center px-5 py-2.5 text-center"
+                  className="text-white w-32 self-end bg-purple-600 focus:ring-4  rounded-lg text-sm  items-center py-2.5 text-center"
                   onClick={handleSetNoShowNewAward}
                 >
                   Cool!
