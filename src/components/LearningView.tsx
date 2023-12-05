@@ -51,24 +51,21 @@ const styles = {
 
 type LearningContent = {
   question: string;
-  labels: string[];
 };
 
 function LearningView({
-  currentLearning,
+  currentChallenge,
   submitting,
   handleSubmitCall,
   handleNext,
   pointsToDisplay,
   explanation,
-  questionNumber,
 }: {
-  currentLearning: LearningContent;
+  currentChallenge: string;
   submitting: boolean;
   handleSubmitCall: (value: string) => void;
-  handleNext: () => void;
+  handleNext?: () => void;
   explanation?: string;
-  questionNumber: number;
   pointsToDisplay?: number;
 }) {
   const [value, setValue] = React.useState("// Type your code here");
@@ -82,7 +79,7 @@ function LearningView({
 
   React.useEffect(() => {
     setValue("// Type your code here");
-  }, [currentLearning.question]);
+  }, [currentChallenge]);
 
   return (
     <div className="h-full flex w-full xl:w-10/12 flex-col md:flex-row pb-8">
@@ -93,8 +90,12 @@ function LearningView({
           </button>
         </div>
         <div style={styles.Card} className="md:h-555 text-black bg-green-500">
-          <h2 className="font-bold pb-2"> Question {questionNumber}:</h2>
-          <h3>{currentLearning.question}</h3>
+          {/* <h2 className="font-bold pb-2"> Question {questionNumber}:</h2> */}
+          <h3>{currentChallenge}</h3>
+          <p className="pt-8 font-light italic">
+            {" "}
+            TIP: If you need to answer the question with words you can type it as a comment{" "}
+          </p>
         </div>
       </div>
       <div className="md:w-1/2 w-full h-2/6 md:h-5/6">
@@ -107,17 +108,17 @@ function LearningView({
           <div>
             <CodeMirror
               value={value}
-              height="400px"
+              height="250px"
               theme={basicDark}
               width="auto"
               extensions={[javascript({ jsx: true })]}
               onChange={onChange}
             />
           </div>
-          <div className="h-24 p-2 scroll-m-2 overflow-auto scr">
+          <div className=" p-2 scroll-m-2 overflow-auto h-72">
             {explanation && (
               <p>
-                {pointsToDisplay}/100 - {explanation}
+                <span className="font-bold"> {pointsToDisplay}/100 </span> - {explanation}
               </p>
             )}
           </div>
@@ -135,7 +136,7 @@ function LearningView({
               type="button"
               className={`text-white py-2 px-8 border rounded-full   ${
                 value === "// Type your code here" || !!explanation
-                  ? "opacity-50 bg-slate-400 "
+                  ? "opacity-30 bg-slate-500 "
                   : "bg-purple-500"
               } rounded-lg px-4 py-2}`}
               // style={styles.InputTwo}
@@ -148,7 +149,7 @@ function LearningView({
 
                   <div className="snippet" data-title="dot-pulse">
                     <div className="stage">
-                      <div className="dot-pulse">Thinking </div>
+                      <div className="dot-pulse"> </div>
                     </div>
                   </div>
                 </div>

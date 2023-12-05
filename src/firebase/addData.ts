@@ -14,7 +14,13 @@ type ProgressUpdate = {
 
 const initialUserSetup = {
   awards: [],
-  currentTopic: "variables",
+  awardNotifications: {
+    fiveCompleted: false,
+    tenCompleted: false,
+    "250Points": false,
+    "500Points": false,
+  },
+  currentTopic: "arrays",
   points: 0,
   totalChallenges: 0,
   functions: {
@@ -33,6 +39,12 @@ const initialUserSetup = {
     lastSeen: 1,
   },
   objects: { awarded: 0, completed: false, lastSeen: 1 },
+};
+
+const initialLearningPath = {
+  arrays: [{ challengeInstruction: "Create an empty array", points: 0 }],
+  variables: [{ challengeInstruction: "Create a new variable", points: 0 }],
+  functions: [{ challengeInstruction: "Create a function which returns 'Hello World'", points: 0 }],
 };
 
 export default async function addData(data: ProgressUpdate) {
@@ -54,6 +66,19 @@ export async function setNewUser(userId: string) {
 
   try {
     result = await setDoc(doc(db, "users", userId), initialUserSetup);
+  } catch (e) {
+    error = e;
+  }
+
+  return { result, error };
+}
+
+export async function setNewGptLearningPath(userId: string) {
+  let result = null;
+  let error = null;
+
+  try {
+    result = await setDoc(doc(db, "gpt-path", userId), initialLearningPath);
   } catch (e) {
     error = e;
   }

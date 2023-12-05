@@ -6,7 +6,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import Topics from "@/components/Topics/Topics";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUserContext } from "@/context/UserDataContext";
-import { getUserProgressInformation } from "@/firebase/getData";
+import { getUserGptLearningPath, getUserProgressInformation } from "@/firebase/getData";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -19,6 +19,9 @@ export default function Home() {
     if (user) {
       getUserProgressInformation(user.uid).then((result) => {
         setInitialUserInformation(result.result);
+        getUserGptLearningPath(user.uid).then((result) => {
+          console.log(result);
+        });
       });
     }
   }, [user, loading]);

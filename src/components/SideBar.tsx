@@ -8,16 +8,27 @@ import Image from "next/image";
 import { awardsMapping } from "@/utils/iconMapping";
 import Link from "next/link";
 import LoadingScreen from "./LoadingScreen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import CompetitionCard from "./Competition";
 import { capitalizeFirstLetter } from "@/utils/helpers";
+import { updateSingleFieldForUser } from "@/firebase/updateFields";
 
 function SideBar() {
   const router = useRouter();
-  const { awards, showNewAward, points, updateNewAwardSwal, resetUserContext } = useUserContext();
+  const {
+    awards,
+    showNewAward,
+    points,
+    awardNotifications,
+    updateNewAwardSwal,
+    updateAward,
+    updateProgress,
+    resetUserContext,
+  } = useUserContext();
   const { user } = useAuthContext();
   const [signingOut, setSigningOut] = useState<boolean>(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signOutUser();
@@ -45,9 +56,6 @@ function SideBar() {
   return (
     <div className="p-2 flex flex-col align-center h-screen w-300 shadow-[0_2px_10px_rgba(3,3,3,0.1)] bg-slate-200">
       <div>
-        {/* <div className="flex justify-center pt-6">
-          <Image src={"/cat-silhouette.svg"} alt={"Cat Silhouette"} width={50} height={50} />
-        </div> */}
         <div className="flex flex-col justify-center align-center pt-16">
           <Link
             href="/dashboard"
@@ -57,7 +65,6 @@ function SideBar() {
             <span> Home </span>
           </Link>
         </div>
-        {/* <p className="pr-6 font-bold"> {points} </p> */}
         <div className="flex flex-col items-center pt-8 ">
           <Image src="/undraw_pic_profile.svg" alt="Profile Picture" height={70} width={70} />
           <span className="pt-2 text-sm"> {getUserName(user.email)} </span>

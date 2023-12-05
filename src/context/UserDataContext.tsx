@@ -1,7 +1,13 @@
 // @ts-ignore
 
 "use client";
-import { Award, Progress, ProgressType, UserDataContextType } from "@/utils/types";
+import {
+  Award,
+  GPTLearningContent,
+  Progress,
+  ProgressType,
+  UserDataContextType,
+} from "@/utils/types";
 // @ts-ignore
 import React from "react";
 
@@ -37,7 +43,9 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
   const [awards, setAwards] = React.useState<Award[]>([]);
   const [showNewAward, setShowNewAward] = React.useState<boolean>(false);
   const [points, setPoints] = React.useState<number>(0);
-  const [currentTopic, setCurrentTopic] = React.useState<string>();
+  const [currentModule, setCurrentModule] = React.useState<string>();
+
+  const [gptLearningContent, setGptLearningContent] = React.useState<GPTLearningContent>({});
 
   const updateProgress = (currentTopic: string, field: keyof ProgressType) => {
     const previousFieldData: ProgressType = progress[currentTopic as keyof typeof progress];
@@ -56,6 +64,10 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
     setShowNewAward(state);
   };
 
+  const updateGPTLearningContent = (learningContent: GPTLearningContent) => {
+    setGptLearningContent(learningContent);
+  };
+
   const updateAward = (award: Award) => {
     setAwards([...awards, award]);
   };
@@ -64,8 +76,8 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
     setPoints(points + pointsToAdd);
   };
 
-  const updateCurrentTopic = (currentTopic: string) => {
-    setCurrentTopic(currentTopic);
+  const updateCurrentModule = (currentTopic: string) => {
+    setCurrentModule(currentTopic);
   };
 
   const setInitialUserInformation = (userInfo: any) => {
@@ -75,19 +87,20 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
       arrays: userInfo.arrays,
       objects: userInfo.objects,
     };
-    setCurrentTopic(userInfo.currentTopic);
+    setCurrentModule(userInfo.currentTopic);
     setAwards(userInfo.awards);
     setProgress(setProgressData);
     const overallProgressCalculated = calculateProgress(setProgressData);
     setOverallProgress(overallProgressCalculated);
     setPoints(userInfo.points);
+    setTotalChallenges(userInfo.totalChallenges);
   };
 
   const resetUserContext = () => {
     setProgress({});
     setAwards([]);
     setPoints(0);
-    setCurrentTopic(undefined);
+    setCurrentModule(undefined);
     setOverallProgress(0);
   };
 
@@ -100,18 +113,20 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
         //@ts-ignore
         progress,
         //@ts-ignore
-        currentTopic,
+        currentModule,
         points,
         totalChallenges,
         overallProgress,
+        gptLearningContent,
         updatePoints,
         //@ts-ignore
         updateProgress,
-        updateCurrentTopic,
+        updateCurrentModule,
         updateNewAwardSwal,
         updateAward,
         setInitialUserInformation,
         resetUserContext,
+        updateGPTLearningContent,
       }}
     >
       {children}

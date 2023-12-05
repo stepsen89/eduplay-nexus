@@ -1,4 +1,4 @@
-import { setNewUser } from "./addData";
+import { setNewGptLearningPath, setNewUser } from "./addData";
 import firebase_app from "./config";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -16,6 +16,29 @@ export async function getLearningContent(name: string) {
       result = docSnap.data();
     } else {
       console.error("No such document!");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return { result, error };
+}
+
+export async function getUserGptLearningPath(userId: string) {
+  let docRef = doc(db, "gpt-path", userId);
+  let result = null;
+  let error = null;
+  let docSnap = null;
+
+  try {
+    docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      result = docSnap.data();
+    } else {
+      result = await setNewGptLearningPath(userId);
+      console.error(`No learning path!, but creating new one for user ${userId}`);
+      docSnap = await getDoc(docRef);
+      result = docSnap.data();
     }
   } catch (error) {
     console.error(error);

@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const givenAnswer = req.body.answer;
+    const given = req.body.answer;
     const question = req.body.question;
     const areas = req.body.areas;
 
@@ -24,11 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           {
             role: "system",
             content:
-              "You are a helpful JavaScript coding assistant. You are given a question, a topic and an answer to it. Please give back a JSON containing 'points' property from 0 to 100, an 'explanation' property for the answer with feedback, please only plain english and no code. Also give back a new question in this topics in a newQuestion property to ask the user to keep them engaged, this question must be answerable with code and should have no relation to the previous answer, so the user starts from an empty slate. Additionally add a few labels which fits the question.",
+              "You are a helpful assistant to learn coding. You give back JSON containing an array of areas named areasToImprove and one string of explanation in plain english for good and bad answers so the user gets some feedback, without code and short, additional calculate points from 0 to 100 for the given answer and give back points too. If everything is okay give back an empty array and a nice explanation as the explanation field to keep the student engaged.",
           },
           {
             role: "user",
-            content: `${question} - Given answer: ${givenAnswer} Overall area for next question: ${areas}`,
+            content: `${question} - Given answer: ${givenAnswer} Please analyse and return an array with areas which should be improved of the following areas: ${areas}`,
           },
         ],
       },
@@ -37,7 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const botMessage = gptResponse.data.choices[0].message?.content;
 
-    console.log(botMessage);
     return res.status(200).json({
       message: "Success",
       response: JSON.parse(botMessage),
