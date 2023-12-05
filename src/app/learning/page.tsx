@@ -47,6 +47,7 @@ export default function LearningPage() {
   const [learningContent, setLearningContent] = useState<LearningContent[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(1);
   const [explanation, setExplanation] = useState<string>();
+  const [pointsToDisplay, setPointsToDisplay] = useState<number>();
 
   useEffect(() => {
     if (user == null && !loading) router.push("/");
@@ -63,7 +64,7 @@ export default function LearningPage() {
       getLearningContent(currentTopic).then((result) => setLearningContent(result?.result));
       setCurrentQuestion(progress[currentTopic as keyof typeof progress]?.lastSeen);
     }
-  }, [currentTopic, router, progress]);
+  }, [currentTopic, router]);
 
   const submitAnswer = async (answer: string) => {
     setSubmitting(true);
@@ -74,9 +75,10 @@ export default function LearningPage() {
     });
 
     updatePoints(data.response.points);
+    updateSingleFieldForUser(user.uid, { points: points + data.response.points });
 
+    updateProgress(currentTopic, "lastSeen");
     if (data.response.areasToImprove.length === 0) {
-      updateProgress(currentTopic, "lastSeen");
       updateProgress(currentTopic, "awarded");
       if (
         progress[currentTopic as keyof typeof progress]?.awarded > 3 &&
@@ -85,21 +87,24 @@ export default function LearningPage() {
         updateAward(currentTopic as Award);
         updateProgress(currentTopic, "completed");
         const newAwards = [...awards, currentTopic];
-        updateSingleFieldForUser(user.uid, { points: points, ...progress, awards: newAwards });
+
+        updateSingleFieldForUser(user.uid, {
+          awards: newAwards,
+        });
         updateNewAwardSwal(true);
-      } else {
-        updateSingleFieldForUser(user.uid, { points: points, ...progress });
       }
-      setCurrentQuestion(currentQuestion + 1);
+      setExplanation(data.response.explanation);
     } else {
       if (data.response.explanation.length > 0) setExplanation(data.response.explanation);
     }
+    setPointsToDisplay(data.response.points);
 
     setSubmitting(false);
   };
 
   const handleNext = () => {
-    setCurrentQuestion(currentQuestion + 1);
+    updateSingleFieldForUser(user.uid, { ...progress });
+    setCurrentQuestion(progress[currentTopic as keyof typeof progress]?.lastSeen);
     setExplanation(undefined);
   };
 
@@ -145,6 +150,7 @@ export default function LearningPage() {
             submitting={submitting}
             handleNext={handleNext}
             explanation={explanation}
+            pointsToDisplay={pointsToDisplay}
           />
         </>
       ) : (

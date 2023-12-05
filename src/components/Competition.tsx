@@ -43,8 +43,8 @@ const CompetitionCard = () => {
       <div className="flex flex-col my-4 ml-4 w-full h-auto overflow-auto ">
         {mockUserLeaderboard.map((user, index) => {
           return (
-            <>
-              <div className="flex justify-between items-center py-1 pr-6" key={index}>
+            <div key={index}>
+              <div className="flex justify-between items-center py-1 pr-6">
                 <div>
                   <p className="font-bold text-sm"> {index + 1}. </p>
                 </div>
@@ -56,7 +56,7 @@ const CompetitionCard = () => {
                   <p className="text-sm font-bold"> {user.points} </p>
                 </div>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

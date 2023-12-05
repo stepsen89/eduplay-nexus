@@ -30,6 +30,7 @@ const initialFieldsState = {
 
 export default function Home() {
   const [signInState, setSignInState] = useState<SigninState>(initialFieldsState);
+  const [errorInSigningIn, setErrorInSigningIn] = useState<boolean>(false);
 
   const { user, loading } = useAuthContext();
   const router = useRouter();
@@ -50,10 +51,11 @@ export default function Home() {
     const { error } = await signIn(signInState.email, signInState.password);
 
     if (error) {
+      setErrorInSigningIn(true);
       console.error(error);
+    } else {
+      return router.push("/dashboard");
     }
-
-    return router.push("/dashboard");
   };
 
   if (loading) {
@@ -108,6 +110,12 @@ export default function Home() {
                   />
                 ))}
               </div>
+              {errorInSigningIn && (
+                <span className="text-red-500">
+                  {" "}
+                  There was an error signing you in! Please try again{" "}
+                </span>
+              )}
               <FormAction handleSubmit={handleSubmit} text="Log in" />
             </form>
           </div>

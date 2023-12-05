@@ -59,6 +59,7 @@ function LearningView({
   submitting,
   handleSubmitCall,
   handleNext,
+  pointsToDisplay,
   explanation,
   questionNumber,
 }: {
@@ -68,6 +69,7 @@ function LearningView({
   handleNext: () => void;
   explanation?: string;
   questionNumber: number;
+  pointsToDisplay?: number;
 }) {
   const [value, setValue] = React.useState("// Type your code here");
   const onChange = React.useCallback((val: string) => {
@@ -113,7 +115,11 @@ function LearningView({
             />
           </div>
           <div className="h-24 p-2 scroll-m-2 overflow-auto scr">
-            <p>{explanation}</p>
+            {explanation && (
+              <p>
+                {pointsToDisplay}/100 - {explanation}
+              </p>
+            )}
           </div>
           <div className="flex flex-row justify-end  w-full contend-center md:pb-0 pb-12">
             {explanation && (

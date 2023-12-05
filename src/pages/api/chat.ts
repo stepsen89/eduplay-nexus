@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           {
             role: "system",
             content:
-              "You are a helpful assistant to learn coding. You give back JSON containing an array of areas named areasToImprove and one string of explanation named explanation in plain english, without code and short, additional calculate points from 0 to 100 for the given answer and give back points too. If everything is okay give back an empty array and no explanation.",
+              "You are a helpful assistant to learn coding. You give back JSON containing an array of areas named areasToImprove and one string of explanation in plain english for good and bad answers so the user gets some feedback, without code and short, additional calculate points from 0 to 100 for the given answer and give back points too. If everything is okay give back an empty array and a nice explanation as the explanation field to keep the student engaged.",
           },
           {
             role: "user",

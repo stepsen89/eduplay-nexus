@@ -2,7 +2,6 @@
 
 import Awards from "@/components/Awards/Awards";
 import CourseCard from "@/components/Card";
-import CompetitionCard from "@/components/Competition";
 import LoadingScreen from "@/components/LoadingScreen";
 import Topics from "@/components/Topics/Topics";
 import { useAuthContext } from "@/context/AuthContext";
