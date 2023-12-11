@@ -24,7 +24,7 @@ graph TB
   E --> |Yes| F[Add to Awarded Field in Progress for this Module]
   E --> |No| J[Display Explanation]
   F --> G{Awarded Field > 5?}
-  G --> |Yes| H[Give User an Award and Mark Topic as Completed]
+  G --> |Yes| H[Give User an Award and Mark Module as Completed]
   G --> |No| I[Do Nothing]
   J --> K[User Continues to Next Question]
 ```
@@ -39,7 +39,7 @@ classDiagram
         +ProgressType arrays
         +Number totalChallenges
         +Number points
-        +Topic currentTopic
+        +Module currentModule
         +String[] awards
     }
     ```

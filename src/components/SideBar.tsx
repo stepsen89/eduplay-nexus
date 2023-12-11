@@ -1,7 +1,7 @@
 "use client";
 
 import signOutUser from "@/firebase/auth/logout";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HomeIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useUserContext } from "@/context/UserDataContext";
 import Image from "next/image";
@@ -16,11 +16,14 @@ import { updateSingleFieldForUser } from "@/firebase/updateFields";
 
 function SideBar() {
   const router = useRouter();
+  const path = usePathname();
+
+  console.log(path);
   const {
     awards,
     showNewAward,
     points,
-    awardNotifications,
+    totalChallenges,
     updateNewAwardSwal,
     updateAward,
     updateProgress,
@@ -56,7 +59,7 @@ function SideBar() {
   return (
     <div className="p-2 flex flex-col align-center h-screen w-300 shadow-[0_2px_10px_rgba(3,3,3,0.1)] bg-slate-200">
       <div>
-        <div className="flex flex-col justify-center align-center pt-16">
+        <div className="flex flex-col justify-center align-center pt-12">
           <Link
             href="/dashboard"
             className="flex flex-col flex-wrap justify-center content-center "
@@ -65,17 +68,21 @@ function SideBar() {
             <span> Home </span>
           </Link>
         </div>
-        <div className="flex flex-col items-center pt-8 ">
+        <div className="flex flex-col items-center pt-6 ">
           <Image src="/undraw_pic_profile.svg" alt="Profile Picture" height={70} width={70} />
           <span className="pt-2 text-sm"> {getUserName(user.email)} </span>
         </div>
-        {awards && awards.length > 0 ? (
-          <div className="flex flex-col justify-center align-center pt-12 h-48">
+        <div className="flex justify-center pt-8 flex-col items-center">
+          <h4 className=""> Points </h4>
+          <p className="text-3xl font-bold"> {points}</p>
+        </div>
+        {awards && awards.length > 0 && path !== "/dashboard" ? (
+          <div className="flex flex-col justify-center align-center pt-12 h-36">
             <>
               <div className="flex justify-center">
                 <span className="font-bold"> Awards: </span>
               </div>
-              <div className="flex flex-wrap pt-4 h-auto px-4 w-auto  ml-1">
+              <div className="flex flex-wrap pt-2 h-auto px-4 w-auto ml-1">
                 {awards?.map((award, index) => (
                   <div key={index}>
                     <Image
@@ -91,11 +98,11 @@ function SideBar() {
             </>
           </div>
         ) : (
-          <div className=" h-48"></div>
+          <div className=" h-36"></div>
         )}
         <div className="flex justify-center pt-12 flex-col items-center">
-          <h4 className=""> Points </h4>
-          <p className="text-3xl font-bold"> {points}</p>
+          <h4 className="pt-2 text-sm"> Total challenges: </h4>
+          <p className="text-3xl font-bold"> {totalChallenges}</p>
         </div>
         <h2 className=" text-center pt-6"> Leaderboard: </h2>
 

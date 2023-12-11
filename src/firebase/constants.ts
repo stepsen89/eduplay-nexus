@@ -20,7 +20,7 @@ export const initialLearningPath = {
 
 export const initialUserSetup = {
   awards: [],
-  currentTopic: "variables",
+  currentModule: "variables",
   points: 0,
   totalChallenges: 0,
   functions: {

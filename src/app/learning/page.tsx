@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/context/AuthContext";
 import LearningView from "@/components/LearningView";
@@ -8,8 +8,9 @@ import { getUserGptLearningPath, getUserProgressInformation } from "@/firebase/g
 import { useUserContext } from "@/context/UserDataContext";
 import axios from "axios";
 import { updateSingleFieldForUser, updateQuestions } from "@/firebase/updateFields";
-import { Award, GPTLearningContent, Module } from "@/utils/types";
+import { Award, GPTLearningContent, GPTSingleLearningContent, Module } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helpers";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const styles = {
   Text: {
@@ -40,11 +41,71 @@ export default function LearningPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [technicalProblem, setTechnicalProblem] = useState(false);
-  const [currentChallenge, setCurrentChallenge] = useState<string>("");
-  const [challengeInWaiting, setChallengeInWaiting] = useState<string>("");
+  const [currentChallenge, setCurrentChallenge] = useState<GPTSingleLearningContent | null>(null);
+  const [challengeInWaiting, setChallengeInWaiting] = useState<GPTSingleLearningContent | null>(
+    null
+  );
   const [explanation, setExplanation] = useState<string>();
   const [pointsToDisplay, setPointsToDisplay] = useState<number>();
   const [dataIsLoading, setDataIsLoading] = useState<boolean>(false);
+  const [displayTimer, setDisplayTimer] = useState<boolean>(true);
+
+  const Ref = useRef(null);
+
+  // The state for our timer
+  const [timer, setTimer] = useState("00:00");
+
+  const getTimeRemaining = (e) => {
+    const total = Date.parse(e) - Date.parse(new Date());
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    return {
+      total,
+      minutes,
+      seconds,
+    };
+  };
+
+  const startTimer = (e) => {
+    let { total, minutes, seconds } = getTimeRemaining(e);
+    if (total >= 0) {
+      // update the timer
+      // check if less than 10 then we need to
+      // add '0' at the beginning of the variable
+      setTimer(
+        (minutes > 9 ? minutes : "0" + minutes) + ":" + (seconds > 9 ? seconds : "0" + seconds)
+      );
+    }
+  };
+
+  const clearTimer = (e) => {
+    // If you adjust it you should also need to
+    // adjust the Endtime formula we are about
+    // to code next
+    setTimer("02:00");
+
+    // If you try to remove this line the
+    // updating of timer Variable will be
+    // after 1000ms or 1sec
+    if (Ref.current) clearInterval(Ref.current);
+    const id = setInterval(() => {
+      startTimer(e);
+    }, 1000);
+    Ref.current = id;
+  };
+
+  const getDeadTime = () => {
+    let deadline = new Date();
+
+    // This is where you need to adjust if
+    // you entend to add more time
+    deadline.setSeconds(deadline.getSeconds() + 120);
+    return deadline;
+  };
+
+  useEffect(() => {
+    clearTimer(getDeadTime());
+  }, []);
 
   useEffect(() => {
     if (user == null && !loading) router.push("/");
@@ -56,11 +117,15 @@ export default function LearningPage() {
           .then((result) => {
             const overallContent = result.result as GPTLearningContent;
             updateGPTLearningContent(overallContent);
-            setCurrentChallenge(
-              overallContent[currentModule as Module][
+            setCurrentChallenge({
+              challengeInstruction:
+                overallContent[currentModule as Module][
+                  overallContent[currentModule as Module].length - 1
+                ].challengeInstruction,
+              labels: overallContent[currentModule as Module][
                 overallContent[currentModule as Module].length - 1
-              ].challengeInstruction
-            );
+              ].labels || [currentModule],
+            });
             setDataIsLoading(false);
           })
           .catch((error) => {
@@ -90,10 +155,20 @@ export default function LearningPage() {
       points: 0,
     };
 
-    updateQuestions(user.uid, currentModule, data.response.points, newChallengeAddedToPath);
+    updateQuestions(
+      user.uid,
+      currentModule,
+      data.response.points,
+      answer,
+      data.response.explanation,
+      newChallengeAddedToPath
+    );
 
     setExplanation(data.response.explanation);
-    setChallengeInWaiting(data.response.newQuestion);
+    setChallengeInWaiting({
+      challengeInstruction: data.response.newQuestion,
+      labels: data.response.labels,
+    });
 
     if (totalChallenges + 1 === 1) {
       updateAward("firstCompleted");
@@ -146,38 +221,21 @@ export default function LearningPage() {
     }
     setPointsToDisplay(data.response.points);
     setSubmitting(false);
+    setDisplayTimer(false);
   };
 
   const handleNext = () => {
     updateSingleFieldForUser(user.uid, { ...progress });
     setCurrentChallenge(challengeInWaiting);
     setExplanation(undefined);
+    setDisplayTimer(true);
+    clearTimer(getDeadTime());
   };
 
   if (dataIsLoading) {
     return (
       <div className="flex flex-col p-12 h-5/6">
-        <div className="flex items-center justify-center w-full  rounded-lg h-5/6">
-          <div role="status" className="flex flex-col content-center items-center justify-center">
-            <svg
-              aria-hidden="true"
-              className="w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-              viewBox="0 0 100 101"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                fill="currentColor"
-              />
-              <path
-                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                fill="currentFill"
-              />
-            </svg>
-            <span className="pt-4">Please wait ...</span>
-          </div>
-        </div>
+        <LoadingScreen />
       </div>
     );
   }
@@ -186,9 +244,13 @@ export default function LearningPage() {
     <div className="flex flex-col pl-12 pr-12 h-5/6">
       {currentModule && currentChallenge && (
         <>
-          <h1 className="pb-6 pt-4 text-3xl font-bold">
-            Module: {capitalizeFirstLetter(currentModule)}
-          </h1>
+          <div className="flex items-center justify-between w-5/6">
+            <h1 className="pb-6 pt-4 text-3xl font-bold">
+              Module: {capitalizeFirstLetter(currentModule)}
+            </h1>
+            {displayTimer && <h2 className="font-bold text-2xl">{timer}</h2>}
+          </div>
+
           <LearningView
             currentChallenge={currentChallenge}
             handleSubmitCall={handleCodeSubmit}
@@ -202,12 +264,3 @@ export default function LearningPage() {
     </div>
   );
 }
-
-// const styles = {
-//   Text: {
-//     color: "#1c1c1c",
-//     fontSize: "32px",
-//     fontWeight: 500,
-//     lineHeight: "42px",
-//   },
-// };

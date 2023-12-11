@@ -1,20 +1,12 @@
 "use client";
 
-import Awards from "@/components/Awards/Awards";
-import CourseCard from "@/components/Card";
 import LearningPath from "@/components/LearningPath";
 import LoadingScreen from "@/components/LoadingScreen";
-import Topics from "@/components/Topics/Topics";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUserContext } from "@/context/UserDataContext";
 import { getUserGptLearningPath } from "@/firebase/getData";
-import {
-  resetModuleInFirestore,
-  updateQuestions,
-  updateSingleFieldForUser,
-} from "@/firebase/updateFields";
-import { Award, GPTLearningContent, GPTSingleLearningContent, Module } from "@/utils/types";
-import { useRouter } from "next/navigation";
+import { resetModuleInFirestore, updateSingleFieldForUser } from "@/firebase/updateFields";
+import { Award, GPTLearningContent, GPTSingleLearningContent } from "@/utils/types";
 import { useEffect, useState } from "react";
 
 export default function Home() {

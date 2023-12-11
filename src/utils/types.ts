@@ -27,7 +27,10 @@ export type Progress = {
 
 export type GPTSingleLearningContent = {
   challengeInstruction: string;
-  points: number;
+  labels: string[];
+  points?: number;
+  answerGiven?: string;
+  feedback?: string;
 };
 
 export type GPTLearningContent = {
@@ -49,14 +52,14 @@ export type UserDataContextType = {
   overallProgress: number;
   gptLearningContent: GPTLearningContent;
   updateProgress: (field: string, value: string) => void;
-  updateCurrentTopic: (currentTopic: string) => void;
+  updateCurrentModule: (currentModule: string) => void;
   updatePoints: (pointsToAdd: number) => void;
   updateAward: (award: Award) => void;
   setInitialUserInformation: (userInfo: any) => void;
   updateNewAwardSwal: (state: boolean) => void;
   resetUserContext: () => void;
   updateGPTLearningContent: (learningContent: GPTLearningContent) => void;
-  resetProgress: (topic: string) => void;
+  resetProgress: (module: string) => void;
   removeAward: (award: Award) => void;
 };
 
@@ -69,7 +72,7 @@ export type UserData = {
   };
   totalChallenges: number;
   points: number;
-  currentTopic: Topic;
+  currentModule: Module;
   awards: string[] | null;
   learningContent: GPTLearningContent;
 };

@@ -33,6 +33,8 @@ export async function updateQuestions(
   userId: string,
   field: string,
   points: number,
+  answerGiven: string,
+  feedback: string,
   challengeToAdd: { challengeInstruction: string; points: number }
 ) {
   let result = null;
@@ -48,6 +50,8 @@ export async function updateQuestions(
       const array = data[field];
       const lastElement = array[array.length - 1];
       lastElement.points = points; // update points
+      lastElement.answerGiven = answerGiven; // update answer given
+      lastElement.feedback = feedback; // update feedback
       array[array.length - 1] = lastElement; // update last element in array
       array.push(challengeToAdd);
 

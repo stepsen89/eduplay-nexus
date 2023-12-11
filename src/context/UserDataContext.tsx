@@ -44,8 +44,8 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
 
   const [gptLearningContent, setGptLearningContent] = React.useState<GPTLearningContent>({});
 
-  const updateProgress = (currentTopic: string, field: keyof ProgressType) => {
-    const previousFieldData: ProgressType = progress[currentTopic as keyof typeof progress];
+  const updateProgress = (currentModule: string, field: keyof ProgressType) => {
+    const previousFieldData: ProgressType = progress[currentModule as keyof typeof progress];
     if (field === "awarded") {
       previousFieldData[field] = previousFieldData[field] + 1;
       setTotalChallenges(totalChallenges + 1);
@@ -53,18 +53,18 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
       previousFieldData[field] = true;
     }
 
-    setProgress((prevState) => ({ ...prevState, [currentTopic]: previousFieldData }));
+    setProgress((prevState) => ({ ...prevState, [currentModule]: previousFieldData }));
     const overallProgressCalculated = calculateProgress(progress);
     setOverallProgress(overallProgressCalculated);
   };
 
-  const resetProgress = (topic: string) => {
+  const resetProgress = (module: string) => {
     const initialProgressData: ProgressType = {
       awarded: 0,
       completed: false,
     };
 
-    setProgress((prevState) => ({ ...prevState, [topic]: initialProgressData }));
+    setProgress((prevState) => ({ ...prevState, [module]: initialProgressData }));
     const overallProgressCalculated = calculateProgress(progress);
     setOverallProgress(overallProgressCalculated);
   };
@@ -90,8 +90,8 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
     setPoints(points + pointsToAdd);
   };
 
-  const updateCurrentModule = (currentTopic: string) => {
-    setCurrentModule(currentTopic);
+  const updateCurrentModule = (currentModule: string) => {
+    setCurrentModule(currentModule);
   };
 
   const setInitialUserInformation = (userInfo: any) => {
@@ -101,7 +101,7 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
       arrays: userInfo.arrays,
       objects: userInfo.objects,
     };
-    setCurrentModule(userInfo.currentTopic);
+    setCurrentModule(userInfo.currentModule);
     setAwards(userInfo.awards);
     setProgress(setProgressData);
     const overallProgressCalculated = calculateProgress(setProgressData);

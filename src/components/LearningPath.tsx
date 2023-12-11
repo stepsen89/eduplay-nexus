@@ -42,17 +42,32 @@ function LearningPath({
           <p> No path generated yet, start the module to see your path </p>
         ) : (
           <div className="">
-            {generatedPath.value.map((section, index) => (
-              <div key={index} className="flex justify-between w-3/5 py-2">
-                <h2 className="w-4/5">
-                  {" "}
-                  <span className="font-bold"> {index + 1}. </span> {section.challengeInstruction}{" "}
-                </h2>
-                <span>
-                  {" "}
-                  <span className="font-bold"> {section.points}</span>/100
-                </span>
-              </div>
+            {generatedPath.value.slice(0, -1).map((section, index) => (
+              <>
+                <div key={index} className="flex justify-between w-3/5 py-2">
+                  <h2 className="w-4/5">
+                    <span className="font-bold"> {index + 1}. </span> {section.challengeInstruction}{" "}
+                  </h2>
+                  <span>
+                    <span className="font-bold"> {section.points}</span>/100
+                  </span>
+                </div>
+                <div className="w-3/5">
+                  <h3 className="pt-2 pb-3 font-bold"> Your answer: </h3>
+                  <CodeMirror
+                    value={section.answerGiven}
+                    height="auto"
+                    theme={basicDark}
+                    width="auto"
+                    extensions={[javascript({ jsx: true })]}
+                    readOnly={true}
+                    basicSetup={{ highlightActiveLine: false, highlightActiveLineGutter: false }}
+                  />
+                  <h3 className="py-2 font-bold"> Your feedback: </h3>
+                  <p className="italic pb-4"> {section.feedback} </p>
+                </div>
+                <hr className="w-3/5 pb-4 text-black border-t-gray-950" />
+              </>
             ))}
           </div>
         )}

@@ -3,7 +3,7 @@
 import Awards from "@/components/Awards/Awards";
 import CourseCard from "@/components/Card";
 import LoadingScreen from "@/components/LoadingScreen";
-import Topics from "@/components/Topics/Topics";
+import Modules from "@/components/Modules/Modules";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUserContext } from "@/context/UserDataContext";
 import { getUserGptLearningPath, getUserProgressInformation } from "@/firebase/getData";
@@ -20,9 +20,7 @@ export default function Home() {
     if (user) {
       getUserProgressInformation(user.uid).then((result) => {
         setInitialUserInformation(result.result);
-        getUserGptLearningPath(user.uid).then((result) => {
-          console.log(result);
-        });
+        getUserGptLearningPath(user.uid);
       });
     }
   }, [user, loading]);
@@ -32,8 +30,8 @@ export default function Home() {
   return (
     <div>
       {user ? (
-        <div className="w-full px-12 pt-2">
-          <h1 className="pb-6 pt-4 text-3xl font-bold"> Dashboard </h1>
+        <div className="w-full px-12">
+          <h1 className="pb-6 text-3xl font-bold"> Dashboard </h1>
           <div className="flex justify-between pr-12">
             <div>
               <h2 className="text-xl font-bold"> Current Course: </h2>
@@ -46,9 +44,9 @@ export default function Home() {
           </div>
           {progress && (
             <div className="h-auto flex flex-col items-start">
-              <Topics progress={progress} userId={user.uid} />
+              <Modules progress={progress} userId={user.uid} />
               <Link
-                className={`text-white py-2 px-8 border rounded-lg bg-purple-600 mt-8`}
+                className={`text-white py-2 px-8 border rounded-lg bg-purple-600 mt-6`}
                 href="/learning-paths"
               >
                 See my learning paths

@@ -8,12 +8,13 @@ import { tags as t } from "@lezer/highlight";
 import CodeMirror from "@uiw/react-codemirror";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useUserContext } from "@/context/UserDataContext";
+import { GPTSingleLearningContent } from "@/utils/types";
 
 const styles = {
   Card: {
-    backgroundColor: "#ECEFF4",
+    // backgroundColor: "#ECEFF4",
     borderRadius: "12px 0 0 12px",
 
     padding: "16px",
@@ -49,10 +50,6 @@ const styles = {
   },
 };
 
-type LearningContent = {
-  question: string;
-};
-
 function LearningView({
   currentChallenge,
   submitting,
@@ -61,14 +58,15 @@ function LearningView({
   pointsToDisplay,
   explanation,
 }: {
-  currentChallenge: string;
+  currentChallenge: GPTSingleLearningContent;
   submitting: boolean;
   handleSubmitCall: (value: string) => void;
   handleNext?: () => void;
   explanation?: string;
   pointsToDisplay?: number;
 }) {
-  const [value, setValue] = React.useState("// Type your code here");
+  const [value, setValue] = React.useState("// Type your answer here");
+
   const onChange = React.useCallback((val: string) => {
     setValue(val);
   }, []);
@@ -78,7 +76,7 @@ function LearningView({
   };
 
   React.useEffect(() => {
-    setValue("// Type your code here");
+    setValue("// Type your answer here");
   }, [currentChallenge]);
 
   return (
@@ -89,13 +87,32 @@ function LearningView({
             Instructions
           </button>
         </div>
-        <div style={styles.Card} className="md:h-555 text-black bg-green-500">
+        <div
+          style={styles.Card}
+          className="md:h-555 text-black bg-gray-100 flex flex-col justify-between"
+        >
           {/* <h2 className="font-bold pb-2"> Question {questionNumber}:</h2> */}
-          <h3>{currentChallenge}</h3>
-          <p className="pt-8 font-light italic">
-            {" "}
-            TIP: If you need to answer the question with words you can type it as a comment{" "}
-          </p>
+          <h3>{currentChallenge.challengeInstruction}</h3>
+          <div className="mb-4">
+            <p className="font-light italic pb-4">
+              TIP: If you need to answer the question with words you can type it as a comment,
+              sometimes you need to explain your code. Please try to use code whenever possible
+            </p>
+            <div>
+              <div className="flex flex-wrap items-center">
+                <span>Labels:</span>
+                {currentChallenge.labels.map((label) => (
+                  <span
+                    className={`text-white text-sm py-1.5 px-6 border bg-gray-500 italic ml-2
+                rounded-full`}
+                    key={label}
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="md:w-1/2 w-full h-2/6 md:h-5/6">
@@ -135,13 +152,13 @@ function LearningView({
             <button
               type="button"
               className={`text-white py-2 px-8 border rounded-full   ${
-                value === "// Type your code here" || !!explanation
+                value === "// Type your answer here" || !!explanation
                   ? "opacity-30 bg-slate-500 "
                   : "bg-purple-500"
               } rounded-lg px-4 py-2}`}
               // style={styles.InputTwo}
               onClick={handleSubmit}
-              disabled={value === "// Type your code here" || !!explanation}
+              disabled={value === "// Type your answer here" || !!explanation}
             >
               {submitting ? (
                 <div className="col-3 flex justify-between content-center items-center w-32">
