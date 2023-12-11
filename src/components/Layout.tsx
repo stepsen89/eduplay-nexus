@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return user ? (
     <main className="h-screen flex">
       <SideBar />
-      <div className="w-full overflow-auto">
+      <div className="w-full overflow-auto 3xl:pl-24">
         <NavProgressBar points={points} />
         {children}
       </div>

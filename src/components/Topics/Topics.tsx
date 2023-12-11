@@ -2,7 +2,7 @@
 
 import { updateSingleFieldForUser } from "@/firebase/updateFields";
 import { capitalizeFirstLetter } from "@/utils/helpers";
-import { Progress, Topic } from "@/utils/types";
+import { Progress, Module } from "@/utils/types";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -65,7 +65,7 @@ const Topics = ({ progress, userId }: { progress: Progress; userId: string }) =>
             <div className="flex flex-col items-start my-4 ml-4  w-full h-auto  ">
               <h3 className="font-bold">{capitalizeFirstLetter(key)}</h3>
               <p className="font-extralight text-xs text-left pb-1">
-                {topicDescription[key as Topic]}
+                {topicDescription[key as Module]}
               </p>
               {progress[key as keyof Progress].completed ? (
                 <p> Completed!</p>

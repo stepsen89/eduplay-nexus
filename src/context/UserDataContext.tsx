@@ -27,10 +27,7 @@ const calculateProgress = (progress: Progress) => {
         completedEntries++;
       }
     }
-
-    let overallProgress = (completedEntries / totalEntries) * 100;
-
-    return overallProgress;
+    return completedEntries;
   } else {
     return 0;
   }
@@ -49,13 +46,25 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
 
   const updateProgress = (currentTopic: string, field: keyof ProgressType) => {
     const previousFieldData: ProgressType = progress[currentTopic as keyof typeof progress];
-    if (field === "awarded" || field === "lastSeen") {
+    if (field === "awarded") {
       previousFieldData[field] = previousFieldData[field] + 1;
       setTotalChallenges(totalChallenges + 1);
     } else if (field === "completed") {
       previousFieldData[field] = true;
     }
-    setProgress((prevState) => ({ ...prevState, previousFieldData }));
+
+    setProgress((prevState) => ({ ...prevState, [currentTopic]: previousFieldData }));
+    const overallProgressCalculated = calculateProgress(progress);
+    setOverallProgress(overallProgressCalculated);
+  };
+
+  const resetProgress = (topic: string) => {
+    const initialProgressData: ProgressType = {
+      awarded: 0,
+      completed: false,
+    };
+
+    setProgress((prevState) => ({ ...prevState, [topic]: initialProgressData }));
     const overallProgressCalculated = calculateProgress(progress);
     setOverallProgress(overallProgressCalculated);
   };
@@ -70,6 +79,11 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
 
   const updateAward = (award: Award) => {
     setAwards([...awards, award]);
+  };
+
+  const removeAward = (award: Award) => {
+    const newAwards = awards.filter((givenAward) => givenAward !== award);
+    setAwards(newAwards);
   };
 
   const updatePoints = (pointsToAdd: number) => {
@@ -127,6 +141,8 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
         setInitialUserInformation,
         resetUserContext,
         updateGPTLearningContent,
+        resetProgress,
+        removeAward,
       }}
     >
       {children}

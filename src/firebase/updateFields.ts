@@ -1,6 +1,5 @@
 import firebase_app from "./config";
-import { getFirestore, updateDoc, doc, Firestore, getDoc } from "firebase/firestore";
-import { firestore } from "firebase/app";
+import { getFirestore, updateDoc, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore(firebase_app);
 
@@ -30,23 +29,6 @@ export async function updateGPTLearningPath(userId: string, data: any) {
   return { result, error };
 }
 
-// export async function updateLastQuestionWithPoints(userId: string, field: string, points: number) {
-//   let result = null;
-//   let error = null;
-
-//   const docRef = doc(db, "gpt-path", userId);
-
-//   try {
-//     result = await updateDoc(docRef, {
-//       [field]: firestore.FieldValue.arrayUnion("points", points),
-//     });
-//   } catch (e) {
-//     error = e;
-//   }
-
-//   return { result, error };
-// }
-
 export async function updateQuestions(
   userId: string,
   field: string,
@@ -71,6 +53,38 @@ export async function updateQuestions(
 
       console.log("array", array);
       result = await updateDoc(docRef, { [field]: array }); // write array back to document
+    }
+  } catch (e) {
+    error = e;
+  }
+
+  return { result, error };
+}
+
+const resetModules = {
+  functions: "Create a new function which returns 'Hello World'",
+  variables: "Create a new variable called 'myVar' and assign it a value of 5",
+  objects:
+    "Create a new object called 'myObj' with a property called 'myProp' and assign it a value of 5",
+  arrays: "Create a new array called 'myArr' with a value of 5",
+};
+
+export async function resetModuleInFirestore(userId: string, module: string) {
+  let result = null;
+  let error = null;
+
+  const docRef = doc(db, "gpt-path", userId);
+
+  try {
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const initialModule = {
+        challengeInstruction: resetModules[module as keyof typeof resetModules],
+        points: 0,
+      };
+
+      result = await updateDoc(docRef, { [module]: [initialModule] }); // write array back to document
     }
   } catch (e) {
     error = e;

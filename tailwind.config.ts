@@ -17,6 +17,10 @@ const config: Config = {
         "500": "500px",
         "555": "555px",
         "300": "300px",
+        "650": "650px",
+      },
+      screens: {
+        "3xl": "1920px",
       },
     },
     // colors: {

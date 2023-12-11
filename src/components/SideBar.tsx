@@ -107,8 +107,8 @@ function SideBar() {
         </button>
       </div>
       {showNewAward && awards && (
-        <div className="absolute w-500 h-8 bottom-36 left-6 ">
-          <div className=" bg-slate-300 rounded-lg shadow drop-shadow-2xl h-36 ">
+        <div className="absolute w-600 h-8 bottom-40 left-6 ">
+          <div className=" bg-slate-300 rounded-lg shadow drop-shadow-2xl h-40 ">
             <button
               type="button"
               className="absolute top-3 end-2.5 text-gray-800 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"

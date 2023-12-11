@@ -52,9 +52,11 @@ const CourseCard = ({ title, description, overallProgress = 0 }: CourseCardProps
         <div className="w-72 rounded-full h-1 dark:bg-gray-700 bg-slate-500">
           <div
             className={`bg-blue-500 h-1 rounded-full`}
-            style={{ width: `${overallProgress}%` }}
+            style={{ width: `${overallProgress * 25}%` }}
           ></div>
-          <p className="pt-2 text-xs"> {overallProgress}% completed</p>
+          <p className="pt-2 text-xs">
+            {overallProgress * 25}% completed ({overallProgress} of 4 modules)
+          </p>
         </div>
       </div>
     </Link>

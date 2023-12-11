@@ -16,7 +16,6 @@ export type Module = "functions" | "variables" | "arrays" | "objects";
 export type ProgressType = {
   awarded: number;
   completed: boolean;
-  lastSeen: number;
 };
 
 export type Progress = {
@@ -57,6 +56,8 @@ export type UserDataContextType = {
   updateNewAwardSwal: (state: boolean) => void;
   resetUserContext: () => void;
   updateGPTLearningContent: (learningContent: GPTLearningContent) => void;
+  resetProgress: (topic: string) => void;
+  removeAward: (award: Award) => void;
 };
 
 export type UserData = {

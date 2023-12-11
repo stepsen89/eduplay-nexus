@@ -21,7 +21,7 @@ graph TB
   C --> E{GPT response evaluates
   code answer as okay
   areasToImprove.length === 0?}
-  E --> |Yes| F[Add to Awarded Field in Progress for this Topic]
+  E --> |Yes| F[Add to Awarded Field in Progress for this Module]
   E --> |No| J[Display Explanation]
   F --> G{Awarded Field > 5?}
   G --> |Yes| H[Give User an Award and Mark Topic as Completed]
