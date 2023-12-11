@@ -18,7 +18,6 @@ function SideBar() {
   const router = useRouter();
   const path = usePathname();
 
-  console.log(path);
   const {
     awards,
     showNewAward,
@@ -31,6 +30,7 @@ function SideBar() {
   } = useUserContext();
   const { user } = useAuthContext();
   const [signingOut, setSigningOut] = useState<boolean>(false);
+  console.log(awards);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,6 +139,7 @@ function SideBar() {
               </svg>
               <span className="sr-only">Close modal</span>
             </button>
+            {console.log(awards)}
             <div className="p-5 flex">
               <div className="flex justify-center items-center w-1/5 ">
                 <div>

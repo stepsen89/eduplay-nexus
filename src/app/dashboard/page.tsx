@@ -7,20 +7,31 @@ import Modules from "@/components/Modules/Modules";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUserContext } from "@/context/UserDataContext";
 import { getUserGptLearningPath, getUserProgressInformation } from "@/firebase/getData";
+import { GPTLearningContent } from "@/utils/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
   const { user, loading } = useAuthContext();
-  const { setInitialUserInformation, awards, progress, overallProgress, points } = useUserContext();
+  const {
+    setInitialUserInformation,
+    awards,
+    progress,
+    overallProgress,
+    gptLearningContent,
+    updateGPTLearningContent,
+  } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
       getUserProgressInformation(user.uid).then((result) => {
         setInitialUserInformation(result.result);
-        getUserGptLearningPath(user.uid);
+        getUserGptLearningPath(user.uid).then((result) => {
+          const overallContent = result.result as GPTLearningContent;
+          updateGPTLearningContent(overallContent);
+        });
       });
     }
   }, [user, loading]);
@@ -44,7 +55,11 @@ export default function Home() {
           </div>
           {progress && (
             <div className="h-auto flex flex-col items-start">
-              <Modules progress={progress} userId={user.uid} />
+              <Modules
+                progress={progress}
+                userId={user.uid}
+                gptLearningContent={gptLearningContent}
+              />
               <Link
                 className={`text-white py-2 px-8 border rounded-lg bg-purple-600 mt-6`}
                 href="/learning-paths"

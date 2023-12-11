@@ -2,7 +2,7 @@
 
 import { updateSingleFieldForUser } from "@/firebase/updateFields";
 import { capitalizeFirstLetter } from "@/utils/helpers";
-import { Progress, Module } from "@/utils/types";
+import { Progress, Module, GPTLearningContent } from "@/utils/types";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -15,15 +15,28 @@ const moduleDescription = {
   objects: "Learn how to use objects in JavaScript.",
 };
 
-const Modules = ({ progress, userId }: { progress: Progress; userId: string }) => {
+const Modules = ({
+  progress,
+  userId,
+  gptLearningContent,
+}: {
+  progress: Progress;
+  userId: string;
+  gptLearningContent: GPTLearningContent;
+}) => {
   const router = useRouter();
+  console.log(gptLearningContent);
   const handleModuleChoice = (e: any, key: string) => {
     e.preventDefault();
     const updateCurrentModule = {
       currentModule: key,
     };
     updateSingleFieldForUser(userId, updateCurrentModule);
-    router.push("/learning");
+    if (gptLearningContent[key as Module].length === 1) {
+      router.push(`/introduction?module=${key}`);
+    } else {
+      router.push("/learning");
+    }
   };
 
   return (

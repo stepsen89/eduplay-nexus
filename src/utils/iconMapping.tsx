@@ -56,7 +56,7 @@ const awardsMapping: AwardsToMapping = {
     title: "10 Completed!",
     description: "First login to your journey!",
   },
-  fifeenCompleted: {
+  fifteenCompleted: {
     alt: "Hacker Icon",
     src: "/icons8-inspect-code-100.png",
     title: "10 Completed!",
