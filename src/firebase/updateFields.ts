@@ -55,7 +55,6 @@ export async function updateQuestions(
       array[array.length - 1] = lastElement; // update last element in array
       array.push(challengeToAdd);
 
-      console.log("array", array);
       result = await updateDoc(docRef, { [field]: array }); // write array back to document
     }
   } catch (e) {

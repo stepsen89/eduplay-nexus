@@ -78,8 +78,6 @@ export const UserDataContextProvider = ({ children }: { children: React.ReactNod
   };
 
   const updateAward = (award: Award) => {
-    console.log(award);
-    console.log([...awards, award]);
     setAwards([...awards, award]);
   };
 

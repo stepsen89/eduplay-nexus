@@ -1,5 +1,6 @@
 "use client";
 
+import { useUserContext } from "@/context/UserDataContext";
 import { updateSingleFieldForUser } from "@/firebase/updateFields";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import { Progress, Module, GPTLearningContent } from "@/utils/types";
@@ -25,13 +26,14 @@ const Modules = ({
   gptLearningContent: GPTLearningContent;
 }) => {
   const router = useRouter();
-  console.log(gptLearningContent);
+  const { updateCurrentModule } = useUserContext();
   const handleModuleChoice = (e: any, key: string) => {
     e.preventDefault();
-    const updateCurrentModule = {
+    const updatedCurrentModule = {
       currentModule: key,
     };
-    updateSingleFieldForUser(userId, updateCurrentModule);
+    updateSingleFieldForUser(userId, updatedCurrentModule);
+    updateCurrentModule(key);
     if (gptLearningContent[key as Module].length === 1) {
       router.push(`/introduction?module=${key}`);
     } else {

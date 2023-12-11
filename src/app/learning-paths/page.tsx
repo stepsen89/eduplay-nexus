@@ -45,7 +45,6 @@ export default function Home() {
 
   const fetchGptLearningContentForPathView = () => {
     getUserGptLearningPath(user.uid).then((result) => {
-      console.log(result);
       const paths = result.result as GPTLearningContent;
       const gptPaths = setGeneratedPathsAndName(paths);
       setGeneratedPaths(gptPaths);

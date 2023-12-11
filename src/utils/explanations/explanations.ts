@@ -156,4 +156,69 @@ export const explanations: RecapExplanations = {
     codeExample:
       "let numbers = [];\nconsole.log('Empty Array:', numbers);\n// Outputs: Empty Array: []\n\nnumbers.push(42);\nconsole.log('Array Length:', numbers.length);\n// Outputs: Array Length: 1\n\nnumbers.push(99);\nconsole.log('Updated Array:', numbers);\n// Outputs: Updated Array: [42, 99]",
   },
+  functions: {
+    overallExplanation:
+      "Functions in JavaScript are blocks of reusable code that can be defined and invoked throughout your program. They allow you to organize code into modular and manageable units. Here is an overview of common function-related actions with explanations and code examples:",
+
+    content: [
+      {
+        section: "Function Declaration",
+        explanation:
+          "Creating a named function that can be called by its name. Function declarations are hoisted and can be called before they are defined in the code.",
+        example: "function greet(name) {\n  return `Hello, ${name}!`;\n}",
+      },
+      {
+        section: "Function Expression",
+        explanation:
+          "Creating a function as part of an expression. Function expressions can be anonymous or named, and they are not hoisted.",
+        example: "const greet = function(name) {\n  return `Hello, ${name}!`;\n};",
+      },
+      {
+        section: "Arrow Function",
+        explanation:
+          "A concise way to write functions using the arrow (=>) syntax. Arrow functions do not have their own 'this' context and are useful for short, single-expression functions.",
+        example: "const greet = (name) => `Hello, ${name}!`;",
+      },
+      {
+        section: "Function Invocation",
+        explanation:
+          "Calling a function to execute its code. Functions can be invoked with or without arguments.",
+        example: "let result = greet('John');\n// result is 'Hello, John!'",
+      },
+      {
+        section: "Return Statement",
+        explanation:
+          "Returning a value from a function. The 'return' statement ends the function's execution and provides a result back to the caller.",
+        example: "function add(a, b) {\n  return a + b;\n}\nlet sum = add(3, 5);\n// sum is 8",
+      },
+      {
+        section: "Parameters",
+        explanation:
+          "Named variables in a function's signature used to receive values passed during the function invocation. Parameters act as placeholders for arguments.",
+        example: "function multiply(x, y) {\n  return x * y;\n}",
+      },
+      {
+        section: "Default Parameters",
+        explanation:
+          "Assigning default values to function parameters. If an argument is not provided during invocation, the default value is used.",
+        example: "function power(base, exponent = 2) {\n  return Math.pow(base, exponent);\n}",
+      },
+      {
+        section: "Rest Parameter",
+        explanation:
+          "Collecting multiple arguments into a single array-like object within a function. The rest parameter is denoted by three dots (...).",
+        example:
+          "function sumAll(...numbers) {\n  return numbers.reduce((sum, num) => sum + num, 0);\n}",
+      },
+      {
+        section: "Callback Function",
+        explanation:
+          "A function passed as an argument to another function and invoked inside that function. Callbacks are commonly used in asynchronous operations.",
+        example:
+          "function fetchData(callback) {\n  // ... asynchronous operation\n  callback(data);\n}",
+      },
+    ],
+
+    codeExample: "const result = greet('Alice');\nconsole.log(result);\n// Outputs: Hello, Alice!",
+  },
 };

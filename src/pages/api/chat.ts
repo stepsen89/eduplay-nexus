@@ -38,7 +38,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const botMessage = gptResponse.data.choices[0].message?.content;
 
-    console.log(botMessage);
     return res.status(200).json({
       message: "Success",
       response: JSON.parse(botMessage),
