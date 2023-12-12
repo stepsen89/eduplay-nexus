@@ -221,4 +221,73 @@ export const explanations: RecapExplanations = {
 
     codeExample: "const result = greet('Alice');\nconsole.log(result);\n// Outputs: Hello, Alice!",
   },
+  objects: {
+    overallExplanation:
+      "Objects in JavaScript are key-value pairs used to store and organize data. They are versatile and can represent complex structures. Here is an overview of common object-related actions with explanations and code examples:",
+
+    content: [
+      {
+        section: "Object Creation",
+        explanation:
+          "Creating an object literal with key-value pairs. Objects can hold various data types and even other objects.",
+        example:
+          "let person = {\n  name: 'John',\n  age: 25,\n  address: {\n    city: 'Example City',\n    zipCode: '12345'\n  }\n};",
+      },
+      {
+        section: "Accessing Properties",
+        explanation:
+          "Retrieving the value of a property from an object using dot notation or square brackets.",
+        example:
+          "let personName = person.name;\n// personName is 'John'\nlet cityName = person.address['city'];\n// cityName is 'Example City'",
+      },
+      {
+        section: "Adding Properties",
+        explanation:
+          "Adding a new property to an existing object. Objects in JavaScript are dynamic, and properties can be added or modified at any time.",
+        example:
+          "person.job = 'Developer';\n// person now has a 'job' property with the value 'Developer'",
+      },
+      {
+        section: "Updating Properties",
+        explanation: "Changing the value of an existing property within an object.",
+        example: "person.age = 26;\n// The 'age' property of person is now updated to 26",
+      },
+      {
+        section: "Deleting Properties",
+        explanation: "Removing a property from an object using the 'delete' keyword.",
+        example:
+          "delete person.address;\n// The 'address' property is removed from the person object",
+      },
+      {
+        section: "Object Methods",
+        explanation:
+          "Assigning functions as values to object properties. These functions are then referred to as methods of the object.",
+        example:
+          "let calculator = {\n  add: function(a, b) {\n    return a + b;\n  },\n  subtract: function(a, b) {\n    return a - b;\n  }\n};\nlet sum = calculator.add(3, 5);\n// sum is 8",
+      },
+      {
+        section: "Object Constructor",
+        explanation:
+          "Creating objects using a constructor function. Constructor functions are typically used to create multiple objects with similar properties and methods.",
+        example:
+          "function Car(make, model) {\n  this.make = make;\n  this.model = model;\n}\nlet myCar = new Car('Toyota', 'Camry');",
+      },
+      {
+        section: "Object Destructuring",
+        explanation:
+          "Extracting values from objects and assigning them to variables using a concise syntax.",
+        example: "let { name, age } = person;\n// name is 'John', age is 25",
+      },
+      {
+        section: "Object Prototypes",
+        explanation:
+          "Objects in JavaScript have prototypes, which allow for the inheritance of properties and methods. Prototype-based inheritance is a fundamental concept in JavaScript.",
+        example:
+          "// Define a constructor function\nfunction Animal(name) {\n  this.name = name;\n}\n// Add a method to the prototype\nAnimal.prototype.sayHello = function() {\n  console.log('Hello, my name is ' + this.name);\n};\n// Create an instance of Animal\nlet dog = new Animal('Buddy');\n// Call the method\n dog.sayHello(); // Outputs: Hello, my name is Buddy",
+      },
+    ],
+
+    codeExample:
+      "console.log(person.name); // Outputs: John\nperson.gender = 'Male';\n// The person object now has a 'gender' property\nconsole.log(person.gender); // Outputs: Male",
+  },
 };

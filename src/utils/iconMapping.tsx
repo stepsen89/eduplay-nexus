@@ -36,7 +36,7 @@ const awardsMapping: AwardsToMapping = {
     alt: "Variables Icon",
     src: "/icons8-code-100.png",
     title: "JS Variables",
-    description: "First login to your journey!",
+    description: "Variables completed!",
   },
   firstCompleted: {
     alt: "Hacker Icon",
@@ -48,19 +48,19 @@ const awardsMapping: AwardsToMapping = {
     alt: "Hacker Icon",
     src: "/icons8-heat-map-100.png",
     title: "Five Completed!",
-    description: "First login to your journey!",
+    description: "5 completed!",
   },
   tenCompleted: {
     alt: "Hacker Icon",
     src: "/icons8-inspect-code-100.png",
     title: "10 Completed!",
-    description: "First login to your journey!",
+    description: "10 challenges completed!",
   },
   fifteenCompleted: {
     alt: "Hacker Icon",
-    src: "/icons8-inspect-code-100.png",
-    title: "10 Completed!",
-    description: "First login to your journey!",
+    src: "/icons8-static-view-level1-100.png",
+    title: "15 Completed!",
+    description: "15 challenges completed!",
   },
   "250Points": {
     alt: "Hacker Icon",
@@ -77,8 +77,8 @@ const awardsMapping: AwardsToMapping = {
   objects: {
     alt: "Hacker Icon",
     src: "/icons8-objects-100.png",
-    title: "10 Completed!",
-    description: "First login to your journey!",
+    title: "Objects",
+    description: "Object module completed",
   },
 };
 const iconMapping = {

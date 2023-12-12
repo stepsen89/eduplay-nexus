@@ -26,12 +26,12 @@ interface CompetitionCard {
 }
 
 const mockUserLeaderboard = [
-  { username: "javaScriptHero123", points: 1276, profilePicture: "/undraw_pic_profile.svg" },
-  { username: "codeWizard", points: 1106, profilePicture: "/undraw_pic_profile.svg" },
-  { username: "levelcoder", points: 1036, profilePicture: "/undraw_pic_profile.svg" },
-  { username: "jsjames", points: 1032, profilePicture: "/undraw_pic_profile.svg" },
-  { username: "theUltimateCoder", points: 945, profilePicture: "/undraw_pic_profile.svg" },
-  { username: "codingCat", points: 945, profilePicture: "/undraw_pic_profile.svg" },
+  { username: "codingCat", points: 2045, profilePicture: "/undraw_pic_profile.svg" },
+  { username: "theUltimateCoder", points: 1945, profilePicture: "/undraw_pic_profile.svg" },
+  { username: "javaScriptHero123", points: 1876, profilePicture: "/undraw_pic_profile.svg" },
+  { username: "codeWizard", points: 1706, profilePicture: "/undraw_pic_profile.svg" },
+  { username: "levelcoder", points: 1636, profilePicture: "/undraw_pic_profile.svg" },
+  { username: "jsjames", points: 1632, profilePicture: "/undraw_pic_profile.svg" },
 ];
 
 const CompetitionCard = () => {
