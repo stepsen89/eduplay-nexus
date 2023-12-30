@@ -12,22 +12,6 @@ graph TB
 
 ```
 
-```mermaid
-
-graph TB
-  A[User Answers a Question] --> B[GPT request]
-  B --> |200| C[Add Points to User]
-  B --> |500| D[Route to error page, current technical issue]
-  C --> E{GPT response evaluates
-  code answer as okay
-  areasToImprove.length === 0?}
-  E --> |Yes| F[Add to Awarded Field in Progress for this Module]
-  E --> |No| J[Display Explanation]
-  F --> G{Awarded Field > 5?}
-  G --> |Yes| H[Give User an Award and Mark Module as Completed]
-  G --> |No| I[Do Nothing]
-  J --> K[User Continues to Next Question]
-```
 
 ````mermaid
 
