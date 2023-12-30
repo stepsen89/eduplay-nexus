@@ -60,7 +60,6 @@ flowchart TD
     K --> L[End]
 ```
 
-
 flow
 
 ```mermaid
@@ -70,6 +69,7 @@ graph TB
   C --> D[GPT returns a response containing points, followupQuestions, labels]
   D --> E[Display response for the user]
 ```
+
 Sequence diagram
 
 ```mermaid
@@ -83,7 +83,6 @@ sequenceDiagram
   GPT-->>System: Response (points, follow up questions, labels, feedback)
   System->>User: displays feedback and points
 ```
-
 
 Database visualisation
 
@@ -107,4 +106,28 @@ graph TB
   GPTPath --> GPTDoc
   GPTPath --> GPTDoc2
   GPTPath --> GPTDoc3
-  ```
+```
+
+```mermaid
+  classDiagram
+
+  class User {
+    userId: string
+    arrays: ProgressType
+    awards: Award[]
+    currentModule: Module
+  }
+
+  class ProgressType {
+    awarded: number
+    completed: boolean
+  }
+
+  class Award {
+    value: string
+  }
+  class Module {
+    value: string
+  }
+
+```
