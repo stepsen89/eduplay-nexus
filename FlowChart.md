@@ -42,7 +42,7 @@ classDiagram
         +Module currentModule
         +String[] awards
     }
-    ```
+
 ````
 
 ```mermaid
