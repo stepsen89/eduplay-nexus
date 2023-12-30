@@ -1,9 +1,9 @@
 "use client";
 
-import Awards from "@/components/Awards/Awards";
+import Awards from "@/components/Awards";
 import CourseCard from "@/components/Card";
 import LoadingScreen from "@/components/LoadingScreen";
-import Modules from "@/components/Modules/Modules";
+import Modules from "@/components/Modules";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUserContext } from "@/context/UserDataContext";
 import { getUserGptLearningPath, getUserProgressInformation } from "@/firebase/getData";

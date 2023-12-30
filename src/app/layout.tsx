@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { UserDataContextProvider } from "@/context/UserDataContext";
+import { GPTContextProvider } from "@/context/GPTContext";
 
 const montserrat_font = Montserrat({
   subsets: ["latin"],
@@ -21,7 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={montserrat_font.className}>
         <AuthContextProvider>
           <UserDataContextProvider>
-            <Layout> {children} </Layout>
+            <GPTContextProvider>
+              <Layout> {children} </Layout>
+            </GPTContextProvider>
           </UserDataContextProvider>
         </AuthContextProvider>
         <span className="absolute right-9 text-xs bottom-5 invisible md:visible">

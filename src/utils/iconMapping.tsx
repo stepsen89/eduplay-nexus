@@ -1,4 +1,4 @@
-import Awards from "@/components/Awards/Awards";
+import Awards from "@/components/Awards";
 import Image from "next/image";
 import { Award } from "./types";
 

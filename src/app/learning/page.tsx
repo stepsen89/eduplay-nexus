@@ -11,6 +11,7 @@ import { updateSingleFieldForUser, updateQuestions } from "@/firebase/updateFiel
 import { Award, GPTLearningContent, GPTSingleLearningContent, Module } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useGPTContext } from "@/context/GPTContext";
 
 const styles = {
   Text: {
@@ -36,6 +37,8 @@ export default function LearningPage() {
     updateAward,
     updateGPTLearningContent,
   } = useUserContext();
+
+  const { updateGPTConversation } = useGPTContext();
 
   const router = useRouter();
 
