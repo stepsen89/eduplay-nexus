@@ -91,7 +91,8 @@ export default function Home() {
       </div>
       <div className="flex justify-center flex-col items-center  w-1/2 rounded-xl h-5/6 ">
         <div className="w-1/2">
-          <h1 className="font-bold text-xl"> Login </h1>
+          <h1 className="font-bold text-4xl pb-12"> Eduplay Nexus </h1>
+          <h2 className="font-bold text-xl"> Login </h2>
           <div>
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
@@ -113,7 +114,7 @@ export default function Home() {
               {errorInSigningIn && (
                 <span className="text-red-500">
                   {" "}
-                  There was an error signing you in! Please try again{" "}
+                  Your email or password is incorrect. Please try again.{" "}
                 </span>
               )}
               <FormAction handleSubmit={handleSubmit} text="Log in" />

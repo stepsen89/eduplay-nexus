@@ -58,10 +58,11 @@ function SideBar() {
   return (
     <div className="p-2 flex flex-col align-center h-screen w-300 shadow-[0_2px_10px_rgba(3,3,3,0.1)] bg-slate-200">
       <div>
-        <div className="flex flex-col justify-center align-center pt-12">
+        <div className="flex flex-col justify-center align-center pt-8">
+          <h3 className="font-bold text-2xl text-center"> Eduplay Nexus </h3>
           <Link
             href="/dashboard"
-            className="flex flex-col flex-wrap justify-center content-center "
+            className="flex flex-col flex-wrap justify-center content-center pt-4"
           >
             <HomeIcon className="h-6 w-6 self-center" />
             <span> Home </span>
