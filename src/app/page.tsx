@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { loginFields } from "@/utils/formFields";
 import FormAction from "@/components/FormAction";
 import LoadingScreen from "@/components/LoadingScreen";
+import Link from "next/link";
 
 const styles = {
   Image: {
@@ -119,6 +120,12 @@ export default function Home() {
               )}
               <FormAction handleSubmit={handleSubmit} text="Log in" />
             </form>
+            <Link
+              href="/register"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 mt-10"
+            >
+              No account? Register here
+            </Link>
           </div>
         </div>
       </div>
